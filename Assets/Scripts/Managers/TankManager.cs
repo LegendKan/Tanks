@@ -15,9 +15,10 @@ public class TankManager
     public Transform m_SpawnPoint;                          // The position and direction the tank will have when it spawns.
 	public float m_RebornDelay = 3f;
 	public Slider m_BloodSlider;
-    [HideInInspector] public int m_PlayerNumber;            // This specifies which player this the manager for.
+    public int m_PlayerNumber;            // This specifies which player this the manager for.
+	public string m_PlayerName;
     [HideInInspector] public string m_ColoredPlayerText;    // A string that represents the player with their number colored to match their tank.
-    [HideInInspector] public GameObject m_Instance;         // A reference to the instance of the tank when it is created.
+    public GameObject m_Instance;         // A reference to the instance of the tank when it is created.
     [HideInInspector] public int m_Wins;                    // The number of wins this player has so far.
     
 
@@ -41,7 +42,7 @@ public class TankManager
 		m_Health.m_PlayerNumber = m_PlayerNumber;
 
         // Create a string using the correct color that says 'PLAYER 1' etc based on the tank's color and the player's number.
-        m_ColoredPlayerText = "<color=#" + ColorUtility.ToHtmlStringRGB(m_PlayerColor) + ">PLAYER " + m_PlayerNumber + "</color>";
+		m_ColoredPlayerText = "<color=#" + ColorUtility.ToHtmlStringRGB(m_PlayerColor) + ">" + m_PlayerName + "</color>";
 
         // Get all of the renderers of the tank.
         MeshRenderer[] renderers = m_Instance.GetComponentsInChildren<MeshRenderer> ();
@@ -52,6 +53,9 @@ public class TankManager
             // ... set their material color to the color specific to this tank.
             renderers[i].material.color = m_PlayerColor;
         }
+
+		m_Instance.transform.position = m_SpawnPoint.position;
+		m_Instance.transform.rotation = m_SpawnPoint.rotation;
     }
 
 	//update UI or reborn tank

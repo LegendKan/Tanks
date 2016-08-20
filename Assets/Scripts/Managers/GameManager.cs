@@ -84,11 +84,11 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < m_Tanks.Length; i++)
         {
             // ... create them, set their player number and references needed for control.
-            m_Tanks[i].m_Instance =
-                Instantiate(m_TankPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
+            //m_Tanks[i].m_Instance =
+                //Instantiate(m_TankPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
 			
-			m_Tanks[i].m_Instance.tag = "Tank"+(i + 1);
-            m_Tanks[i].m_PlayerNumber = i + 1;
+			//m_Tanks[i].m_Instance.tag = "Tank"+(i + 1);
+            //m_Tanks[i].m_PlayerNumber = i + 1;
             m_Tanks[i].Setup();
         }
     }
@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine (RoundPlaying());
 
         // Once execution has returned here, run the 'RoundEnding' coroutine, again don't return until it's finished.
-        //yield return StartCoroutine (RoundEnding());
+        yield return StartCoroutine (RoundEnding());
 
 		/*
         // This code is not run until 'RoundEnding' has finished.  At which point, check if a game winner has been found.
@@ -190,7 +190,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
+	/*
     private IEnumerator RoundEnding ()
     {
         // Stop tanks from moving.
@@ -216,6 +216,22 @@ public class GameManager : MonoBehaviour
         // Wait for the specified length of time until yielding control back to the game loop.
         yield return m_EndWait;
     }
+    */
+
+	private IEnumerator RoundEnding()
+	{
+		// Stop tanks from moving.
+		DisableTankControl ();
+
+		string message = "获胜！";
+		if (scores [0] > scores [1]) {
+			message = m_Tanks[0].m_ColoredPlayerText + m_Tanks [0].m_PlayerName + message;
+		} else {
+			message = m_Tanks[1].m_ColoredPlayerText + m_Tanks [1].m_PlayerName + message;
+		}
+		m_MessageText.text = message;
+		yield return m_EndWait;
+	}
 
 
     // This is used to check if there is one or fewer tanks remaining and thus the round should end.
