@@ -106,7 +106,8 @@ public class TankMovement : MonoBehaviour
         // Adjust the rigidbodies position and orientation in FixedUpdate.
         Move ();
         Turn ();
-		TurretTurn ();
+		//TurretTurn ();
+		RotateTurret(new Vector3(0, 0, 0));
     }
 
 
@@ -135,5 +136,14 @@ public class TankMovement : MonoBehaviour
 	private void TurretTurn ()
 	{
 		turret.Rotate (0, m_MouseInput * 2, 0);
+	}
+
+	//炮塔旋转
+	public void RotateTurret(Vector3 targetPosition)
+	{
+		Vector3 offset = targetPosition - turret.position;
+		offset.y = turret.position.y;
+		Quaternion to = Quaternion.LookRotation(offset, Vector3.up);
+		turret.rotation = Quaternion.RotateTowards(turret.rotation, to, m_TurnSpeed * Time.deltaTime);
 	}
 }

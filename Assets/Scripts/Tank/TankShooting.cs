@@ -122,6 +122,6 @@ public class TankShooting : MonoBehaviour
 
 	public int GetCurrentShellCount()
 	{
-		return
+		return m_CurrentShellCount;
 	}
 }
