@@ -55,6 +55,7 @@ public class TankHealth : MonoBehaviour
         if (m_CurrentHealth <= 0f && !m_Dead)
         {
             OnDeath ();
+			GameManager.instance.AddScore (playerNum);
         }
     }
 

@@ -16,10 +16,12 @@ public class GameManager : MonoBehaviour
 	public FollowCameraControl m_FollowCameraControl;
     public Text m_MessageText;                  // Reference to the overlay Text to display winning text, etc.
 	public Text m_TimeText;
-	public Text m_ScoreText;					//比分板
     public GameObject m_TankPrefab;             // Reference to the prefab the players will control.
     public TankManager[] m_Tanks;               // A collection of managers for enabling and disabling different aspects of the tanks.
 
+	public enum GameState
+	{Playing, GameOver, Winning};
+	public GameState gameState;
     
     private int m_RoundNumber;                  // Which round the game is currently on.
     private WaitForSeconds m_StartWait;         // Used to have a delay whilst the round starts.
@@ -28,8 +30,6 @@ public class GameManager : MonoBehaviour
     private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
 	private int cameraIndex = 0;
 	private float startTime;
-
-	private int[] scores;
 
 
     private void Start()
@@ -49,8 +49,6 @@ public class GameManager : MonoBehaviour
 
         SpawnAllTanks();
         SetCameraTargets();
-
-		scores = new int[m_Tanks.Length];
 
         // Once the tanks have been created and the camera is using them as targets, start the game.
         StartCoroutine (GameLoop ());
@@ -185,6 +183,11 @@ public class GameManager : MonoBehaviour
 			time += seconds;
 			m_TimeText.text = time;
 
+			for(int i=0; i<m_Tanks.Length; i++)
+			{
+				m_Tanks [i].Update ();
+			}
+
             // ... return on the next frame.
             yield return null;
         }
@@ -220,14 +223,18 @@ public class GameManager : MonoBehaviour
 
 	private IEnumerator RoundEnding()
 	{
+		gameState = GameState.GameOver;
+
 		// Stop tanks from moving.
 		DisableTankControl ();
 
-		string message = "获胜！";
-		if (scores [0] > scores [1]) {
-			message = m_Tanks[0].m_ColoredPlayerText + m_Tanks [0].m_PlayerName + message;
+		string message = "获胜";
+		if (m_Tanks [0].m_Wins > m_Tanks [1].m_Wins) {
+			message = m_Tanks [0].m_ColoredPlayerText + message;
+		} else if (m_Tanks [0].m_Wins < m_Tanks [1].m_Wins) {
+			message = m_Tanks [1].m_ColoredPlayerText + message;
 		} else {
-			message = m_Tanks[1].m_ColoredPlayerText + m_Tanks [1].m_PlayerName + message;
+			message = "平局";
 		}
 		m_MessageText.text = message;
 		yield return m_EndWait;
@@ -253,11 +260,11 @@ public class GameManager : MonoBehaviour
     }
 
 	//time is up
-	private bool IsTimeUp()
+	public bool IsTimeUp()
 	{
 		//float remaining = m_totalTime - Time.time;
 		//int remaining = Mathf.CeilToInt(m_totalTime - Time.time);
-		return m_totalTime - Time.time + startTime < 0;
+		return Mathf.CeilToInt(m_totalTime - Time.time + startTime) < 0;
 	}
     
     
@@ -354,6 +361,10 @@ public class GameManager : MonoBehaviour
 		{
 			return;
 		}
-		scores [playerNum]++;
+		for(int i = 0; i < m_Tanks.Length; i++){
+			if (m_Tanks [i].m_PlayerNumber == playerNum) {
+				m_Tanks [i].m_Wins++;
+			}
+		}
 	}
 }

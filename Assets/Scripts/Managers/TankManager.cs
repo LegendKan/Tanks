@@ -20,6 +20,11 @@ public class TankManager
     [HideInInspector] public string m_ColoredPlayerText;    // A string that represents the player with their number colored to match their tank.
     public GameObject m_Instance;         // A reference to the instance of the tank when it is created.
     [HideInInspector] public int m_Wins;                    // The number of wins this player has so far.
+
+	public Text m_ScoreText;
+	public Slider m_HealthSlider;
+	public Image m_PlayerImage;
+	public Text m_DeadText;
     
 
     private TankMovement m_Movement;                        // Reference to tank's movement script, used to disable and enable control.
@@ -56,6 +61,8 @@ public class TankManager
 
 		m_Instance.transform.position = m_SpawnPoint.position;
 		m_Instance.transform.rotation = m_SpawnPoint.rotation;
+		m_HealthSlider.maxValue = m_Health.m_StartingHealth;
+		//m_PlayerImage.color = m_PlayerColor;
     }
 
 	//update UI or reborn tank
@@ -64,10 +71,15 @@ public class TankManager
 		if(!m_Health.isAlive())
 		{
 			float remaining = m_RebornDelay - Time.time + m_Health.deadTime;
-			if(remaining <= 0){
+			if (remaining <= 0) {
 				Reset ();
+				m_DeadText.text = string.Empty;
+			} else {
+				m_DeadText.text = ""+Mathf.CeilToInt (remaining);
 			}
 		}
+		m_ScoreText.text = m_Wins + "";
+		m_HealthSlider.value = m_Health.GetCurrentHealth ();
 	}
 
 

@@ -20,11 +20,11 @@ public class FollowCameraControl : MonoBehaviour {
 	private void Update ()
 	{
 		transform.position = offsetPosition + tankManager.m_Instance.transform.position;
-		if (!tankManager.m_Instance.activeSelf) {
-			Debug.Log ("Should show canvas");
+		if (!tankManager.m_Instance.activeSelf && GameManager.instance.gameState == GameManager.GameState.Playing) {
+			//Debug.Log ("Should show canvas");
 			m_MessageText.text = DeadMessage ();
 			//m_MessageText.text = "Hello";
-		} else {
+		} else if(GameManager.instance.gameState == GameManager.GameState.Playing) {
 			m_MessageText.text = string.Empty;
 		}
 	}
