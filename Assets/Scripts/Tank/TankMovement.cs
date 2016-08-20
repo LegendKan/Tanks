@@ -6,6 +6,7 @@ public class TankMovement : MonoBehaviour
     public int m_PlayerNumber = 1;              // Used to identify which tank belongs to which player.  This is set by this tank's manager.
     public float m_Speed = 12f;                 // How fast the tank moves forward and back.
     public float m_TurnSpeed = 180f;            // How fast the tank turns in degrees per second.
+	public float m_TurretSpeed = 180f;			//炮塔旋转速度
     public AudioSource m_MovementAudio;         // Reference to the audio source used to play engine sounds. NB: different to the shooting audio source.
     public AudioClip m_EngineIdling;            // Audio to play when the tank isn't moving.
     public AudioClip m_EngineDriving;           // Audio to play when the tank is moving.
@@ -106,8 +107,8 @@ public class TankMovement : MonoBehaviour
         // Adjust the rigidbodies position and orientation in FixedUpdate.
         Move ();
         Turn ();
-		//TurretTurn ();
-		RotateTurret(new Vector3(0, 0, 0));
+		TurretTurn ();
+		//RotateTurret(new Vector3(0, 0, 0));
     }
 
 
@@ -144,6 +145,14 @@ public class TankMovement : MonoBehaviour
 		Vector3 offset = targetPosition - turret.position;
 		offset.y = turret.position.y;
 		Quaternion to = Quaternion.LookRotation(offset, Vector3.up);
-		turret.rotation = Quaternion.RotateTowards(turret.rotation, to, m_TurnSpeed * Time.deltaTime);
+		turret.rotation = Quaternion.RotateTowards(turret.rotation, to, m_TurretSpeed * Time.deltaTime);
+	}
+
+	public void RotateBody(Vector3 targetPosition)
+	{
+		Vector3 offset = targetPosition - transform.position;
+		offset.y = transform.position.y;
+		Quaternion to = Quaternion.LookRotation(offset, Vector3.up);
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, to, m_TurnSpeed * Time.deltaTime);
 	}
 }
