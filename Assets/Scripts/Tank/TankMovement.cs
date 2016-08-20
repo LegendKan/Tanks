@@ -108,7 +108,8 @@ public class TankMovement : MonoBehaviour
         Move ();
         Turn ();
 		TurretTurn ();
-		//RotateTurret(new Vector3(0, 0, 0));
+
+		//Debug.Log("Turret Rotation: "+turret.rotation.ToString());
     }
 
 
@@ -143,7 +144,7 @@ public class TankMovement : MonoBehaviour
 	public void RotateTurret(Vector3 targetPosition)
 	{
 		Vector3 offset = targetPosition - turret.position;
-		offset.y = turret.position.y;
+		offset.y = 0;//turret.position.y
 		Quaternion to = Quaternion.LookRotation(offset, Vector3.up);
 		turret.rotation = Quaternion.RotateTowards(turret.rotation, to, m_TurretSpeed * Time.deltaTime);
 	}
@@ -154,5 +155,10 @@ public class TankMovement : MonoBehaviour
 		offset.y = transform.position.y;
 		Quaternion to = Quaternion.LookRotation(offset, Vector3.up);
 		transform.rotation = Quaternion.RotateTowards(transform.rotation, to, m_TurnSpeed * Time.deltaTime);
+	}
+
+	public Quaternion GetTurretRotation()
+	{
+		return turret.rotation;
 	}
 }
