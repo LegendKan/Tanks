@@ -13,7 +13,6 @@ public class FollowMe : Action {
 
     public override TaskStatus OnUpdate()
     {
-        if( )
         m_TankMovement.MoveToPosition(m_TankTransform.position);
         return TaskStatus.Running;
     }
