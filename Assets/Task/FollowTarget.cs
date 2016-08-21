@@ -35,14 +35,19 @@ public class FollowTarget : Action
         {
             return TaskStatus.Success;
         }
-        // We haven't reached the target yet so keep moving towards it
+
+        //record the position of the tank in the last frame
         Vector3 oldPosition = transform.position;
+
+        // We haven't reached the target yet so keep moving towards it
         transform.position = Vector3.MoveTowards(transform.position, position, speed.Value * Time.deltaTime);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(transform.position - oldPosition), maxLookAtRotationDelta.Value);
-        //if (lookAtTarget.Value)
-        //{
-        //    transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(position - transform.position), maxLookAtRotationDelta.Value);
-        //}
+        if (lookAtTarget.Value)
+        {
+            //find out the next position returned by the navigation mesh
+            Vector3 nextNavPosition = GetComponent<NavMeshAgent>().nextPosition;
+            //Forward to the new position
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(nextNavPosition - oldPosition), maxLookAtRotationDelta.Value);
+        }
         return TaskStatus.Running;
     }
 
