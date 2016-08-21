@@ -172,7 +172,7 @@ public class TankMovement : MonoBehaviour
 	public bool IsAimed(Vector3 targetPosition)
 	{
 		Vector3 offset = targetPosition - turret.position;
-		offset.y = turret.position.y;//
+		offset.y = 0;//
 		Quaternion to = Quaternion.LookRotation(offset, Vector3.up);
 		return turret.rotation == to;
 	}
