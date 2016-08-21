@@ -141,6 +141,20 @@ public class TankMovement : MonoBehaviour
         m_Rigidbody.MoveRotation (m_Rigidbody.rotation * turnRotation);
     }
 
+	public void Forward()
+	{
+		Vector3 movement = transform.forward * m_Speed * Time.deltaTime;
+		// Apply this movement to the rigidbody's position.
+		m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
+	}
+
+	public void Backward()
+	{
+		Vector3 movement = transform.forward * (-1) * m_Speed * Time.deltaTime;
+		// Apply this movement to the rigidbody's position.
+		m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
+	}
+
 	private void TurretTurn ()
 	{
 		turret.Rotate (0, m_MouseInput * 2, 0);
@@ -153,6 +167,14 @@ public class TankMovement : MonoBehaviour
 		offset.y = 0;//turret.position.y
 		Quaternion to = Quaternion.LookRotation(offset, Vector3.up);
 		turret.rotation = Quaternion.RotateTowards(turret.rotation, to, m_TurretSpeed * Time.deltaTime);
+	}
+
+	public bool IsAimed(Vector3 targetPosition)
+	{
+		Vector3 offset = targetPosition - turret.position;
+		offset.y = turret.position.y;//
+		Quaternion to = Quaternion.LookRotation(offset, Vector3.up);
+		return turret.rotation == to;
 	}
 
 	public void RotateBody(Vector3 targetPosition)

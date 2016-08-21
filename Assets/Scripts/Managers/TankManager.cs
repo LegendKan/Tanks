@@ -1,6 +1,9 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using BehaviorDesigner;
+using BehaviorDesigner.Runtime;
+using BehaviorDesigner.Runtime.Tasks;
 
 
 [Serializable]
@@ -25,6 +28,7 @@ public class TankManager
 	public Slider m_HealthSlider;
 	public Image m_PlayerImage;
 	public Text m_DeadText;
+	public BehaviorTree behaviorTree;
     
 
     private TankMovement m_Movement;                        // Reference to tank's movement script, used to disable and enable control.
@@ -40,11 +44,13 @@ public class TankManager
         m_Shooting = m_Instance.GetComponent<TankShooting> ();
 		m_Health = m_Instance.GetComponent<TankHealth> ();
         m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas> ().gameObject;
+		behaviorTree = m_Instance.GetComponent<BehaviorTree> ();
 
         // Set the player numbers to be consistent across the scripts.
         m_Movement.m_PlayerNumber = m_PlayerNumber;
         m_Shooting.m_PlayerNumber = m_PlayerNumber;
 		m_Health.m_PlayerNumber = m_PlayerNumber;
+		m_Health.reborn_delay = m_RebornDelay;
 
         // Create a string using the correct color that says 'PLAYER 1' etc based on the tank's color and the player's number.
 		m_ColoredPlayerText = "<color=#" + ColorUtility.ToHtmlStringRGB(m_PlayerColor) + ">" + m_PlayerName + "</color>";
@@ -62,6 +68,10 @@ public class TankManager
 		m_Instance.transform.position = m_SpawnPoint.position;
 		m_Instance.transform.rotation = m_SpawnPoint.rotation;
 		m_HealthSlider.maxValue = m_Health.m_StartingHealth;
+		if(behaviorTree!=null){
+			behaviorTree.enabled = false;
+		}
+
 		//m_PlayerImage.color = m_PlayerColor;
     }
 
@@ -89,6 +99,10 @@ public class TankManager
         m_Movement.enabled = false;
         m_Shooting.enabled = false;
 
+		if(behaviorTree!=null){
+			behaviorTree.enabled = false;
+		}
+
         m_CanvasGameObject.SetActive (false);
     }
 
@@ -98,6 +112,9 @@ public class TankManager
     {
         m_Movement.enabled = true;
         m_Shooting.enabled = true;
+		if(behaviorTree!=null){
+			behaviorTree.enabled = true;
+		}
 
         m_CanvasGameObject.SetActive (true);
     }

@@ -12,6 +12,7 @@ public class TankHealth : MonoBehaviour
     public GameObject m_ExplosionPrefab;                // A prefab that will be instantiated in Awake, then used whenever the tank dies.
     
 	public float deadTime;
+	[HideInInspector] public float reborn_delay;
     
     private AudioSource m_ExplosionAudio;               // The audio source to play when the tank explodes.
     private ParticleSystem m_ExplosionParticles;        // The particle system the will play when the tank is destroyed.
@@ -100,5 +101,14 @@ public class TankHealth : MonoBehaviour
 	public float GetCurrentHealth()
 	{
 		return m_CurrentHealth;
+	}
+
+	public float GetRebornRemaining(){
+		float remaining = reborn_delay - Time.time + deadTime;
+		if(remaining<=0)
+		{
+			return 0;
+		}
+		return remaining;
 	}
 }
