@@ -122,6 +122,12 @@ public class TankMovement : MonoBehaviour
         m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
     }
 
+    public void MoveToPosition(Vector3 targetPosition)
+    {
+        Vector3 movementOffset = (targetPosition - m_Rigidbody.position) * m_Speed * Time.deltaTime;
+        m_Rigidbody.MovePosition(m_Rigidbody.position + movementOffset);
+    }
+
 
     private void Turn ()
     {
