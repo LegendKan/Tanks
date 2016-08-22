@@ -4,6 +4,7 @@ using System.Collections;
 public class AIController : MonoBehaviour {
 
 	public GameObject m_Enemy;
+	public Environment m_Environment;
 
 	[HideInInspector] public TankHealth health;
 	[HideInInspector] public TankMovement movement;
@@ -73,6 +74,33 @@ public class AIController : MonoBehaviour {
 	public Transform GetTransform()
 	{
 		return transform;
+	}
+
+	/// <summary>
+	/// Gets all barriers.
+	/// </summary>
+	/// <returns>The all barriers.</returns>
+	public GameObject[] GetAllBarriers(){
+		return m_Environment.GetBarriers ();
+	}
+
+	/// <summary>
+	/// Gets the nearest barrier.
+	/// </summary>
+	/// <returns>The nearest barrier.</returns>
+	/// <param name="position">Position.</param>
+	public GameObject GetNearestBarrier(Vector3 position)
+	{
+		return m_Environment.GetNearestBarrier (position);
+	}
+
+	/// <summary>
+	/// Gets the property transforms.
+	/// </summary>
+	/// <returns>The property transforms.</returns>
+	public Transform[] GetPropTransforms()
+	{
+		return m_Environment.PropTransforms;
 	}
 
 	/// <summary>
