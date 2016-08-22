@@ -20,7 +20,8 @@ public class ShellExplosion : MonoBehaviour
 
     private void OnTriggerEnter (Collider other)
     {
-		bool flag = false;
+
+		/*
 		// Collect all the colliders in a sphere from the shell's current position to a radius of the explosion radius.
         Collider[] colliders = Physics.OverlapSphere (transform.position, m_ExplosionRadius, m_TankMask);
 
@@ -42,10 +43,6 @@ public class ShellExplosion : MonoBehaviour
 
             // If there is no TankHealth script attached to the gameobject, go on to the next collider.
 			if (!targetHealth || targetHealth.m_PlayerNumber == m_PlayerNumber) {
-				if(targetHealth.m_PlayerNumber == m_PlayerNumber)
-				{
-					flag = true;
-				}
 				continue;
 			}     
 
@@ -55,12 +52,29 @@ public class ShellExplosion : MonoBehaviour
             // Deal this damage to the tank.
 			targetHealth.TakeDamage (m_PlayerNumber,damage);
         }
+		*/
 
-		if(flag)
+		if(other.gameObject == gameObject)
 		{
 			return;
 		}
 
+		Rigidbody targetRigidbody = other.GetComponent<Rigidbody> ();
+
+		// If they don't have a rigidbody, go on to the next collider.
+		if (targetRigidbody != null) {
+			// Find the TankHealth script associated with the rigidbody.
+			TankHealth targetHealth = targetRigidbody.GetComponent<TankHealth> ();
+
+			// If there is no TankHealth script attached to the gameobject, go on to the next collider.
+			if (targetHealth!=null && targetHealth.m_PlayerNumber != m_PlayerNumber) {
+				// Calculate the amount of damage the target should take based on it's distance from the shell.
+				float damage = CalculateDamage (targetRigidbody.position);
+
+				// Deal this damage to the tank.
+				targetHealth.TakeDamage (m_PlayerNumber,damage);
+			}
+		}
         // Unparent the particles from the shell.
         m_ExplosionParticles.transform.parent = null;
 
