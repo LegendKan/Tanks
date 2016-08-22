@@ -41,12 +41,13 @@ public class FollowTarget : Action
 
         // We haven't reached the target yet so keep moving towards it
         transform.position = Vector3.MoveTowards(transform.position, position, speed.Value * Time.deltaTime);
-        if (lookAtTarget.Value)
+		//transform.position = GetComponent<NavMeshAgent>().nextPosition;
+		if (lookAtTarget.Value)
         {
             //find out the next position returned by the navigation mesh
             Vector3 nextNavPosition = GetComponent<NavMeshAgent>().nextPosition;
             //Forward to the new position
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(nextNavPosition - oldPosition), maxLookAtRotationDelta.Value);
+			transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(transform.position - oldPosition), maxLookAtRotationDelta.Value);
         }
         return TaskStatus.Running;
     }
