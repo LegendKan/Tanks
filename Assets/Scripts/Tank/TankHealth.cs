@@ -60,6 +60,16 @@ public class TankHealth : MonoBehaviour
         }
     }
 
+	public void AddHealth(float health)
+	{
+		float final = m_CurrentHealth + health;
+		if(final>=m_StartingHealth)
+		{
+			final = m_StartingHealth;
+		}
+		m_CurrentHealth = final;
+	}
+
 
     private void SetHealthUI ()
     {
