@@ -5,7 +5,7 @@ using System;
 public class HealthTool : MonoBehaviour {
 	public event EventHandler OnCollected;
 
-	public float m_HealthBag = 100f;
+	[HideInInspector]public float m_HealthBag = 100f;
 
 	// Use this for initialization
 	void Start () {
@@ -19,14 +19,16 @@ public class HealthTool : MonoBehaviour {
 
 	private void OnTriggerEnter(Collider other)
 	{
-		TankHealth health = other.GetComponent<TankHealth> ();
+		//Debug.Log ("++++++++++++++++++++++++++++++++++++++++");
+		TankHealth health = other.gameObject.GetComponent<TankHealth> ();
 		if (health!=null) {
+			//Debug.Log ("------------------------------------");
 			health.AddHealth (m_HealthBag);
 			if(OnCollected!=null)
 			{
 				OnCollected (this,EventArgs.Empty);
 			}
-			//Destroy(gameObject);
+			Destroy(gameObject);
 		}
 	}
 }

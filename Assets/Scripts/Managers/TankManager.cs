@@ -17,7 +17,6 @@ public class TankManager
     public Color m_PlayerColor;                             // This is the color this tank will be tinted.
     public Transform m_SpawnPoint;                          // The position and direction the tank will have when it spawns.
 	public float m_RebornDelay = 3f;
-	public Slider m_BloodSlider;
     public int m_PlayerNumber;            // This specifies which player this the manager for.
 	public string m_PlayerName;
     [HideInInspector] public string m_ColoredPlayerText;    // A string that represents the player with their number colored to match their tank.
@@ -68,6 +67,7 @@ public class TankManager
 		m_Instance.transform.position = m_SpawnPoint.position;
 		m_Instance.transform.rotation = m_SpawnPoint.rotation;
 		m_HealthSlider.maxValue = m_Health.m_StartingHealth;
+		m_HealthSlider.value = m_Health.m_StartingHealth;
 		if(behaviorTree!=null){
 			behaviorTree.enabled = false;
 		}

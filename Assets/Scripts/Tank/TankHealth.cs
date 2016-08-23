@@ -68,6 +68,7 @@ public class TankHealth : MonoBehaviour
 			final = m_StartingHealth;
 		}
 		m_CurrentHealth = final;
+		SetHealthUI ();
 	}
 
 

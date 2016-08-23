@@ -110,6 +110,7 @@ public class TankShooting : MonoBehaviour
 		//Debug.Log (m_CurrentLaunchForce);
 		shellExplosion.m_MaxLifeTime = m_MaxRange/m_CurrentLaunchForce;
 		shellExplosion.m_PlayerNumber = m_PlayerNumber;
+		shellExplosion.m_MaxDamage = m_Damage;
         // Set the shell's velocity to the launch force in the fire position's forward direction.
         shellInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward; 
 
