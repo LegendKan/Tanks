@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class HealthTool : MonoBehaviour {
+	public event EventHandler OnCollected;
 
 	public float m_HealthBag = 100f;
 
@@ -20,7 +22,11 @@ public class HealthTool : MonoBehaviour {
 		TankHealth health = other.GetComponent<TankHealth> ();
 		if (health!=null) {
 			health.AddHealth (m_HealthBag);
-			Destroy(gameObject);
+			if(OnCollected!=null)
+			{
+				OnCollected (this,EventArgs.Empty);
+			}
+			//Destroy(gameObject);
 		}
 	}
 }
