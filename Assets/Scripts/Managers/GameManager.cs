@@ -344,6 +344,8 @@ public class GameManager : MonoBehaviour
         {
             m_Tanks[i].EnableControl();
         }
+
+		ToolsManager.instance.enabled = true;
     }
 
 
@@ -353,6 +355,7 @@ public class GameManager : MonoBehaviour
         {
             m_Tanks[i].DisableControl();
         }
+		ToolsManager.instance.enabled = false;
     }
 
 	public void AddScore(int playerNum)

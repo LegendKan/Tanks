@@ -274,5 +274,59 @@ public class AIController : MonoBehaviour {
 		return enemy_ai.GetTransform ();
 	}
 
+	/// <summary>
+	/// Gets all tools transforms.返回所有的道具生成点
+	/// </summary>
+	/// <returns>The all tools transforms.</returns>
+	public Transform[] GetAllToolsTransforms()
+	{
+		return ToolsManager.instance.GetAllSpawnTransforms ();
+	}
+
+	/// <summary>
+	/// Gets the current health transform.返回血量道具的transform，如果没有血量道具则返回null;
+	/// </summary>
+	/// <returns>The current health transform.</returns>
+	public Transform GetCurrentHealthTransform()
+	{
+		return ToolsManager.instance.GetCurrentHealthTransform ();
+	}
+
+	/// <summary>
+	/// Gets the next tools remaining.下次道具生成的剩余时间，返回值>=0.
+	/// </summary>
+	/// <returns>The next tools remaining.</returns>
+	public float GetNextToolsRemaining()
+	{
+		return ToolsManager.instance.GetRemainingTime ();
+	}
+
+	/// <summary>
+	/// Determines whether this instance has health bag.是否有血量道具
+	/// </summary>
+	/// <returns><c>true</c> if this instance has health bag; otherwise, <c>false</c>.</returns>
+	public bool HasHealthBag()
+	{
+		return ToolsManager.instance.HasTools ();
+	}
+
+	/// <summary>
+	/// Gets the health bag amount.返回血量道具的增加血量的数量。
+	/// </summary>
+	/// <returns>The health bag amount.</returns>
+	public float GetHealthBagAmount()
+	{
+		return ToolsManager.instance.GetHealthBagAmount();
+	}
+
+	/// <summary>
+	/// Gets the tools interval.获取道具刷新时间间隔。
+	/// </summary>
+	/// <returns>The tools interval.</returns>
+	public float GetToolsInterval()
+	{
+		return ToolsManager.instance.m_Interval;
+	}
+
 
 }

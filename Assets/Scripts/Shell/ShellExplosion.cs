@@ -6,7 +6,7 @@ public class ShellExplosion : MonoBehaviour
     public LayerMask m_TankMask;                        // Used to filter what the explosion affects, this should be set to "Players".
     public ParticleSystem m_ExplosionParticles;         // Reference to the particles that will play on explosion.
     public AudioSource m_ExplosionAudio;                // Reference to the audio that will play on explosion.
-    public float m_MaxDamage = 100f;                    // The amount of damage done if the explosion is centred on a tank.
+	[HideInInspector]public float m_MaxDamage = 100f;                    // The amount of damage done if the explosion is centred on a tank.
     public float m_ExplosionForce = 0f;              // The amount of force added to a tank at the centre of the explosion.
     public float m_MaxLifeTime = 2f;                    // The time in seconds before the shell is removed.
     public float m_ExplosionRadius = 3f;                // The maximum distance away from the explosion tanks can be and are still affected.
@@ -54,10 +54,13 @@ public class ShellExplosion : MonoBehaviour
         }
 		*/
 
-		if(other.gameObject == gameObject)
+		TankHealth tmp = other.GetComponentInParent<TankHealth> ();
+		if( (tmp && tmp.m_PlayerNumber == m_PlayerNumber) || other.GetComponentInParent<GameTools>()!=null)
 		{
 			return;
 		}
+
+		//Debug.Log ("================"+other.gameObject.tag);
 
 		Rigidbody targetRigidbody = other.GetComponent<Rigidbody> ();
 
@@ -69,10 +72,10 @@ public class ShellExplosion : MonoBehaviour
 			// If there is no TankHealth script attached to the gameobject, go on to the next collider.
 			if (targetHealth!=null && targetHealth.m_PlayerNumber != m_PlayerNumber) {
 				// Calculate the amount of damage the target should take based on it's distance from the shell.
-				float damage = CalculateDamage (targetRigidbody.position);
+				//float damage = CalculateDamage (targetRigidbody.position);//根据距离计算伤害值
 
 				// Deal this damage to the tank.
-				targetHealth.TakeDamage (m_PlayerNumber,damage);
+				targetHealth.TakeDamage (m_PlayerNumber,m_MaxDamage);
 			}
 		}
         // Unparent the particles from the shell.
