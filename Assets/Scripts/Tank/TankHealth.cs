@@ -10,6 +10,7 @@ public class TankHealth : MonoBehaviour
     public Color m_FullHealthColor = Color.green;       // The color the health bar will be when on full health.
     public Color m_ZeroHealthColor = Color.red;         // The color the health bar will be when on no health.
     public GameObject m_ExplosionPrefab;                // A prefab that will be instantiated in Awake, then used whenever the tank dies.
+	public float m_RebornProtectTime = 3f;
     
 	public float deadTime;
 	[HideInInspector] public float reborn_delay;
@@ -18,6 +19,7 @@ public class TankHealth : MonoBehaviour
     private ParticleSystem m_ExplosionParticles;        // The particle system the will play when the tank is destroyed.
     private float m_CurrentHealth;                      // How much health the tank currently has.
     private bool m_Dead;                                // Has the tank been reduced beyond zero health yet?
+	private float rebornTime;
 
 
     private void Awake ()
@@ -41,11 +43,19 @@ public class TankHealth : MonoBehaviour
 
         // Update the health slider's value and color.
         SetHealthUI();
+
+		//重生保护
+		rebornTime = Time.time;
     }
 
 
     public void TakeDamage (int playerNum, float amount)
     {
+		//判断是否有重生保护
+		if(IsRebornProtected())
+		{
+			return;
+		}
         // Reduce current health by the amount of damage done.
         m_CurrentHealth -= amount;
 
@@ -59,6 +69,11 @@ public class TankHealth : MonoBehaviour
 			GameManager.instance.AddScore (playerNum);
         }
     }
+
+	public bool IsRebornProtected()
+	{
+		return Time.time - rebornTime <= m_RebornProtectTime;
+	}
 
 	public void AddHealth(float health)
 	{

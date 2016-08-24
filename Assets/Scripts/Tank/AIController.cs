@@ -372,5 +372,14 @@ public class AIController : MonoBehaviour {
 		return shooting.IsReloading ();
 	}
 
+	/// <summary>
+	/// Gets the reborn protect time.获取重生保护的时间
+	/// </summary>
+	/// <returns>The reborn protect time.</returns>
+	public float GetRebornProtectTime()
+	{
+		return health.m_RebornProtectTime;
+	}
+
 
 }
