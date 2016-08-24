@@ -12,6 +12,7 @@ public class ToolsManager : MonoBehaviour {
 	private float lastTime;
 	private bool beenCollected = true;
 	private GameObject healthObject;
+	private int index;
 
 	public static ToolsManager instance;
 
@@ -30,6 +31,7 @@ public class ToolsManager : MonoBehaviour {
 		{
 			//生成血包，在随机的地点
 			int i = UnityEngine.Random.Range(0, m_ToolsTransform.Length);
+			index = i;
 			GameObject health = Instantiate(m_HealthBag, m_ToolsTransform[i].position, m_ToolsTransform[i].rotation) as GameObject;
 			HealthTool healthComponent = health.GetComponent<HealthTool> ();
 			if(healthComponent!=null)
@@ -70,7 +72,8 @@ public class ToolsManager : MonoBehaviour {
 		{
 			return null;
 		}
-		return healthObject.transform;
+		//return healthObject.transform;
+		return m_ToolsTransform[index];
 	}
 
 	public bool HasTools()
