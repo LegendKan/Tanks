@@ -38,6 +38,7 @@ public class TankShooting : MonoBehaviour
 		//m_AimSlider.maxValue = m_MaxLaunchForce;
         m_CurrentLaunchForce = m_MinLaunchForce;
         //m_AimSlider.value = m_MinLaunchForce;
+		m_CurrentShellCount = shellCountPerClip;
     }
 
 
