@@ -31,7 +31,6 @@ public class TankShooting : MonoBehaviour
 
 	private int m_CurrentShellCount;
 
-
     private void OnEnable()
     {
         // When the tank is turned on, reset the launch force and the UI
