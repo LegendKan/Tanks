@@ -17,6 +17,7 @@ public class TankShooting : MonoBehaviour
 
 	public float m_MaxRange = 10f;
 	public float m_interval = 1f;				//两次开火的时间间隔。
+	public float m_ReloadInterval = 3f;
 	public int shellCountPerClip = 8;
 
 
@@ -25,6 +26,8 @@ public class TankShooting : MonoBehaviour
     private float m_ChargeSpeed;                // How fast the launch force increases, based on the max charge time.
     private bool m_Fired;                       // Whether or not the shell has been launched with this button press.
 	private float fire_timer = 0.0f;
+	private float reload_timer = 0.0f;
+	private bool isreloading = false;
 
 	private int m_CurrentShellCount;
 
@@ -54,6 +57,16 @@ public class TankShooting : MonoBehaviour
     private void Update ()
     {
 		fire_timer += Time.deltaTime;
+		if(isreloading)
+		{
+			if(Time.time - reload_timer >= m_ReloadInterval)
+			{
+				isreloading = false;
+				m_CurrentShellCount = shellCountPerClip;
+			}
+		}
+
+
         // The slider should have a default value of the minimum launch force.
         m_AimSlider.value = m_MinLaunchForce;
 
@@ -94,7 +107,7 @@ public class TankShooting : MonoBehaviour
 
 	public void Fire ()
     {
-		if(fire_timer<m_interval)
+		if(fire_timer<m_interval && !isreloading)
 		{
 			return;
 		}
@@ -120,6 +133,14 @@ public class TankShooting : MonoBehaviour
 
         // Reset the launch force.  This is a precaution in case of missing button events.
         m_CurrentLaunchForce = m_MinLaunchForce;
+
+		//减少弹药数量
+		m_CurrentShellCount --;
+		Debug.Log ("Shell Count is "+m_CurrentShellCount);
+		if(m_CurrentShellCount<=0){
+			Reload ();
+		}
+
     }
 
 	public int GetCurrentShellCount()
@@ -129,6 +150,29 @@ public class TankShooting : MonoBehaviour
 
 	public float GetFireRemaining()
 	{
+		if(isreloading)
+		{
+			float reloadremaining = m_ReloadInterval - Time.time + reload_timer;
+			return reloadremaining >= 0 ? reloadremaining : 0;
+		}
 		return m_interval - fire_timer>=0 ? m_interval - fire_timer:0;
+	}
+
+
+
+	public float IsReloading()
+	{
+		return isreloading;
+	}
+
+	public float Reload()
+	{
+		isreloading = true;
+		reload_timer = Time.time;
+	}
+
+	public int GetShellCountPerClip()
+	{
+		return shellCountPerClip;
 	}
 }

@@ -328,5 +328,49 @@ public class AIController : MonoBehaviour {
 		return ToolsManager.instance.m_Interval;
 	}
 
+	/// <summary>
+	/// Gets the shell range.获取炮弹的攻击范围
+	/// </summary>
+	/// <returns>The shell range.</returns>
+	public float GetShellRange()
+	{
+		return shooting.m_MaxRange;
+	}
+
+	/// <summary>
+	/// Gets the shell count per clip.获取每个弹夹的弹夹数量，游戏中不会发生变化。
+	/// </summary>
+	/// <returns>The shell count per clip.</returns>
+	public int GetShellCountPerClip()
+	{
+		return shooting.GetShellCountPerClip ();
+	}
+
+	/// <summary>
+	/// Gets the reload interval.获取换弹夹的耗时，游戏过程中不会发生变化。
+	/// </summary>
+	/// <returns>The reload interval.</returns>
+	public float GetReloadInterval()
+	{
+		return shooting.m_ReloadInterval;
+	}
+
+	/// <summary>
+	/// Reloads the clip.执行换弹夹动作，该函数立刻返回。
+	/// </summary>
+	public void ReloadClip()
+	{
+		shooting.Reload ();
+	}
+
+	/// <summary>
+	/// Determines whether this instance is reloading.返回是否正在换弹夹，换弹夹是耗时的。
+	/// </summary>
+	/// <returns><c>true</c> if this instance is reloading; otherwise, <c>false</c>.</returns>
+	public bool IsReloading()
+	{
+		return shooting.IsReloading ();
+	}
+
 
 }
