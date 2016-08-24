@@ -36,5 +36,15 @@ public class TankSensor : MonoBehaviour {
 		return string.Empty;
 	}
 
+	public bool CanShootEnemy()
+	{
+		string hit = RaycastCheck (turret, shellRange);
+		if(hit == "Tank"+(3-playerNumber))
+		{
+			return true;
+		}
+		return false;
+	}
+
 
 }
