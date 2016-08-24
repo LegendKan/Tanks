@@ -29,6 +29,7 @@ public class TankManager
 	public Text m_DeadText;
 	public BehaviorTree behaviorTree;
     public Slider m_ShellSlider;
+	public Text m_ReloadingText;
 
     private TankMovement m_Movement;                        // Reference to tank's movement script, used to disable and enable control.
     private TankShooting m_Shooting;                        // Reference to tank's shooting script, used to disable and enable control.
@@ -97,15 +98,17 @@ public class TankManager
 		m_ScoreText.text = m_Wins + "";
 		m_HealthSlider.value = m_Health.GetCurrentHealth ();
 
-        if (m_Shooting.GetCurrentShellCount()==0)
+		if (m_Shooting.IsReloading())
         {
             //m_ShellSlider.enabled = false;
             m_ShellSlider.gameObject.SetActive(false);
+			m_ReloadingText.gameObject.SetActive (true);
         }
         else
         {
             //m_ShellSlider.enabled = true;
             m_ShellSlider.gameObject.SetActive(true);
+			m_ReloadingText.gameObject.SetActive (false);
             m_ShellSlider.value = m_Shooting.GetCurrentShellCount();
         }
         
