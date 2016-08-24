@@ -136,7 +136,7 @@ public class TankShooting : MonoBehaviour
 
 		//减少弹药数量
 		m_CurrentShellCount --;
-		Debug.Log ("Shell Count is "+m_CurrentShellCount);
+		//Debug.Log ("Shell Count is "+m_CurrentShellCount);
 		if(m_CurrentShellCount<=0){
 			Reload ();
 		}
@@ -160,12 +160,12 @@ public class TankShooting : MonoBehaviour
 
 
 
-	public float IsReloading()
+	public bool IsReloading()
 	{
 		return isreloading;
 	}
 
-	public float Reload()
+	public void Reload()
 	{
 		isreloading = true;
 		reload_timer = Time.time;
