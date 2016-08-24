@@ -48,6 +48,11 @@ public class TankHealth : MonoBehaviour
 		rebornTime = Time.time;
     }
 
+	private void Start()
+	{
+		m_CurrentHealth = m_StartingHealth;
+	}
+
 
     public void TakeDamage (int playerNum, float amount)
     {
