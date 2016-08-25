@@ -20,6 +20,7 @@ public class isEnemyDistanceFromprop : Conditional
         if (tank2distanceFromProp > tank1distanceFromProp)
         {
             return TaskStatus.Success;
+
         }
         else return TaskStatus.Failure;
     }
