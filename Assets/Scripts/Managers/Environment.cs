@@ -16,7 +16,10 @@ public class Environment : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if(Input.GetKeyDown(KeyCode.Q))
+		{
+			Debug.Log ("Barriers: "+barriers.Length+" "+barriers[0].transform.position);
+		}
 	}
 
 	public GameObject[] GetBarriers()

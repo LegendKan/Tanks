@@ -6,7 +6,7 @@ public class TankShooting : MonoBehaviour
     public int m_PlayerNumber = 1;              // Used to identify the different players.
     public Rigidbody m_Shell;                   // Prefab of the shell.
     public Transform m_FireTransform;           // A child of the tank where the shells are spawned.
-    public Slider m_AimSlider;                  // A child of the tank that displays the current launch force.
+    //public Slider m_AimSlider;                  // A child of the tank that displays the current launch force.
     public AudioSource m_ShootingAudio;         // Reference to the audio source used to play the shooting audio. NB: different to the movement audio source.
     public AudioClip m_ChargingClip;            // Audio that plays when each shot is charging up.
     public AudioClip m_FireClip;                // Audio that plays when each shot is fired.
@@ -31,14 +31,14 @@ public class TankShooting : MonoBehaviour
 
 	private int m_CurrentShellCount;
 
-
     private void OnEnable()
     {
         // When the tank is turned on, reset the launch force and the UI
-		m_AimSlider.minValue = m_MinLaunchForce;
-		m_AimSlider.maxValue = m_MaxLaunchForce;
+		//m_AimSlider.minValue = m_MinLaunchForce;
+		//m_AimSlider.maxValue = m_MaxLaunchForce;
         m_CurrentLaunchForce = m_MinLaunchForce;
-        m_AimSlider.value = m_MinLaunchForce;
+        //m_AimSlider.value = m_MinLaunchForce;
+		m_CurrentShellCount = shellCountPerClip;
     }
 
 
@@ -53,7 +53,7 @@ public class TankShooting : MonoBehaviour
 		m_CurrentShellCount = shellCountPerClip;
     }
 
-
+	/*
     private void Update ()
     {
 		fire_timer += Time.deltaTime;
@@ -103,7 +103,23 @@ public class TankShooting : MonoBehaviour
             Fire ();
         }
     }
-
+	*/
+	private void Update ()
+	{
+		fire_timer += Time.deltaTime;
+		if(isreloading)
+		{
+			if(Time.time - reload_timer >= m_ReloadInterval)
+			{
+				isreloading = false;
+				m_CurrentShellCount = shellCountPerClip;
+			}
+		}
+		if (Input.GetButtonDown (m_FireButton)) 
+		{
+			Fire ();	
+		}
+	}
 
 	public void Fire ()
     {

@@ -28,7 +28,8 @@ public class TankManager
 	public Image m_PlayerImage;
 	public Text m_DeadText;
 	public BehaviorTree behaviorTree;
-    
+    public Slider m_ShellSlider;
+	public Text m_ReloadingText;
 
     private TankMovement m_Movement;                        // Reference to tank's movement script, used to disable and enable control.
     private TankShooting m_Shooting;                        // Reference to tank's shooting script, used to disable and enable control.
@@ -68,6 +69,12 @@ public class TankManager
 		m_Instance.transform.rotation = m_SpawnPoint.rotation;
 		m_HealthSlider.maxValue = m_Health.m_StartingHealth;
 		m_HealthSlider.value = m_Health.m_StartingHealth;
+
+        m_ShellSlider.maxValue = m_Shooting.shellCountPerClip;
+        m_ShellSlider.value = m_Shooting.shellCountPerClip;
+
+        
+
 		if(behaviorTree!=null){
 			behaviorTree.enabled = false;
 		}
@@ -90,6 +97,21 @@ public class TankManager
 		}
 		m_ScoreText.text = m_Wins + "";
 		m_HealthSlider.value = m_Health.GetCurrentHealth ();
+
+		if (m_Shooting.IsReloading())
+        {
+            //m_ShellSlider.enabled = false;
+            m_ShellSlider.gameObject.SetActive(false);
+			m_ReloadingText.gameObject.SetActive (true);
+        }
+        else
+        {
+            //m_ShellSlider.enabled = true;
+            m_ShellSlider.gameObject.SetActive(true);
+			m_ReloadingText.gameObject.SetActive (false);
+            m_ShellSlider.value = m_Shooting.GetCurrentShellCount();
+        }
+        
 	}
 
 
