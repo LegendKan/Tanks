@@ -41,7 +41,6 @@ public class ToolsManager : MonoBehaviour {
 			}
 			healthObject = health;
 			beenCollected = false;
-			lastTime = Time.time;
 		}
 	}
 
@@ -49,6 +48,7 @@ public class ToolsManager : MonoBehaviour {
 	{
 		Debug.Log ("Tools has been collected");
 		beenCollected = true;
+		lastTime = Time.time;
 	}
 
 	public Transform[] GetAllSpawnTransforms()

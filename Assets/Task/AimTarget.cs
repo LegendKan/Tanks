@@ -27,11 +27,11 @@ public class AimTarget : Action {
 	// Update is called once per frame
 	public override TaskStatus OnUpdate () {
 		var position = Target();
-		if(aiCOntroller.IsAimed(position))
+		if(aiCOntroller.IsAimed(aiCOntroller.GetEnemyTransform().position))
 		{
 			return TaskStatus.Success;
 		}
-		aiCOntroller.RotateTurret (position);
+		aiCOntroller.RotateTurret (aiCOntroller.GetEnemyTransform().position);
 		return TaskStatus.Running;
 	}
 

@@ -31,7 +31,6 @@ public class TankShooting : MonoBehaviour
 
 	private int m_CurrentShellCount;
 
-
     private void OnEnable()
     {
         // When the tank is turned on, reset the launch force and the UI
@@ -39,6 +38,7 @@ public class TankShooting : MonoBehaviour
 		//m_AimSlider.maxValue = m_MaxLaunchForce;
         m_CurrentLaunchForce = m_MinLaunchForce;
         //m_AimSlider.value = m_MinLaunchForce;
+		m_CurrentShellCount = shellCountPerClip;
     }
 
 

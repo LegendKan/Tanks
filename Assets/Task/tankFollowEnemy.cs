@@ -19,7 +19,7 @@ public class tankFollowEnemy : Action {
     {
         if (enemyCtl.GetDistanceWithEnemy() > enemyCtl.GetShellRange())
         {
-            enemyCtl.RotateTurret(enemyCtl.GetEnemyTransform().position);
+            //enemyCtl.RotateTurret(enemyCtl.GetEnemyTransform().position);
             agent.SetDestination(enemyCtl.GetEnemyTransform().position);
             agent.Move(transform.TransformDirection(new Vector3(0, 0, enemyCtl.GetMoveSpeed() * Time.deltaTime)));
         }
