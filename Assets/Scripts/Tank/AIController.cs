@@ -373,12 +373,48 @@ public class AIController : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Gets the reborn protect time.获取重生保护的时间
+	/// Gets the reborn protect time.获取重生保护的时间,"游戏过程中不会发生变化"
 	/// </summary>
 	/// <returns>The reborn protect time.</returns>
 	public float GetRebornProtectTime()
 	{
 		return health.m_RebornProtectTime;
+	}
+
+	/// <summary>
+	/// Determines whether this instance is reborn protected.自己是否在重生保护中。
+	/// </summary>
+	/// <returns><c>true</c> if this instance is reborn protected; otherwise, <c>false</c>.</returns>
+	public bool IsRebornProtected()
+	{
+		return health.IsRebornProtected();
+	}
+
+	/// <summary>
+	/// Gets the reborn protect remaining.返回自己重生保护的剩余时间
+	/// </summary>
+	/// <returns>The reborn protect remaining.</returns>
+	public float GetRebornProtectRemaining()
+	{
+		return health.GetRebornProtectRemaining ();
+	}
+
+	/// <summary>
+	/// Determines whether this instance is enemy reborn protected.敌人是否在重生保护中。
+	/// </summary>
+	/// <returns><c>true</c> if this instance is enemy reborn protected; otherwise, <c>false</c>.</returns>
+	public bool IsEnemyRebornProtected()
+	{
+		return enemy_ai.IsRebornProtected();
+	}
+
+	/// <summary>
+	/// Gets the enemy reborn protect remaining.获取敌方重生保护的剩余时间。
+	/// </summary>
+	/// <returns>The enemy reborn protect remaining.</returns>
+	public float GetEnemyRebornProtectRemaining()
+	{
+		return enemy_ai.GetRebornProtectRemaining ();
 	}
 
 
