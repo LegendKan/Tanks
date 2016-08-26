@@ -29,9 +29,12 @@ public class ReloadingAndRound : Action
         {
             return TaskStatus.Success;
         }
-        //this.transform.Translate(Vector3.back * Time.deltaTime);
-        agent.SetDestination(Vector3.zero);
-        agent.Move(transform.TransformDirection(new Vector3(0, 0, aiCtr.GetMoveSpeed() * Time.deltaTime)));
+        agent.speed = aiCtr.GetMoveSpeed();
+        agent.angularSpeed = aiCtr.GetBodyRotateSpeed();
+        agent.enabled = true;
+        agent.destination = Vector3.zero;
+
+
         return TaskStatus.Running;
     }
 
