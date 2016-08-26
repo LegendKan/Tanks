@@ -4,12 +4,11 @@ using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
 
-public class tankFollowEnemy : Action
+public class seekToHealthBag : Action
 {
 
     public AIController aiCtrl;
 
-    //nav
     private NavMeshAgent navMeshAgent;
     public float offsetDistance = 0.1f;
 
@@ -37,18 +36,14 @@ public class tankFollowEnemy : Action
 
     public override TaskStatus OnUpdate()
     {
-        if (!aiCtrl.IsAimed(aiCtrl.GetEnemyTransform().position))
-        {
-            aiCtrl.RotateTurret(aiCtrl.GetEnemyTransform().position);
-        }
         if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < aiCtrl.GetShellRange())
         {
             return TaskStatus.Success;
         }
 
-        if (aiCtrl.GetEnemyTransform() != null)
+        if (aiCtrl.GetCurrentHealthTransform() != null)
         {
-            navMeshAgent.destination = aiCtrl.GetEnemyTransform().position;
+            navMeshAgent.destination = aiCtrl.GetCurrentHealthTransform().position;
         }
         return TaskStatus.Running;
     }
