@@ -6,9 +6,9 @@ using BehaviorDesigner.Runtime.Tasks;
 	public class BdSeekProp : Action
 	{
 
-		public SharedFloat speed;		
-		public SharedFloat angularSpeed;
-		public SharedFloat offsetDistance = 0.001f;
+		//public SharedFloat speed;		
+		//public SharedFloat angularSpeed;
+		public float offsetDistance = 0.001f;
 
 
 		public AIController aictrl;
@@ -32,7 +32,8 @@ using BehaviorDesigner.Runtime.Tasks;
 
 		public override TaskStatus OnUpdate()
 		{
-			if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < offsetDistance.Value) {
+			if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < offsetDistance) {
+            //Debug.Log(navMeshAgent.remainingDistance);
 				return TaskStatus.Success;
 			}
 			
