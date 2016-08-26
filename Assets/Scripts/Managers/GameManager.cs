@@ -19,17 +19,22 @@ public class GameManager : MonoBehaviour
     public GameObject m_TankPrefab;             // Reference to the prefab the players will control.
     public TankManager[] m_Tanks;               // A collection of managers for enabling and disabling different aspects of the tanks.
 
+	public Text m_TimeScaleText;
+
 	public enum GameState
 	{Playing, GameOver, Winning};
 	public GameState gameState;
     
     private int m_RoundNumber;                  // Which round the game is currently on.
     private WaitForSeconds m_StartWait;         // Used to have a delay whilst the round starts.
+	private WaitForSeconds m_WaitSecond;
     private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
     //private TankManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
     //private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
 	private int cameraIndex = 0;
 	private float startTime;
+
+	private float timeScale = 1f;
 
 
     private void Start()
@@ -43,6 +48,7 @@ public class GameManager : MonoBehaviour
         // Create the delays so they only have to be made once.
         m_StartWait = new WaitForSeconds (m_StartDelay);
         m_EndWait = new WaitForSeconds (m_EndDelay);
+		m_WaitSecond = new WaitForSeconds (1f);
 
 		//setup follow camera
 		m_FollowCameraControl.m_MessageText =m_MessageText;
@@ -71,6 +77,33 @@ public class GameManager : MonoBehaviour
 
 			}
 			cameraIndex++;
+		}
+
+		//控制游戏时间进度
+		if(Input.GetKeyDown(KeyCode.F))
+		{
+			timeScale = 2*timeScale;
+			if(timeScale>8){
+				timeScale = 8;
+			}
+			Time.timeScale = timeScale;
+			m_TimeScaleText.gameObject.SetActive (true);
+			m_TimeScaleText.text = "X " + timeScale;
+		}
+
+		//控制游戏时间进度
+		if(Input.GetKeyDown(KeyCode.G))
+		{
+			timeScale = timeScale/2;
+			if(timeScale<1){
+				timeScale = 1;
+			}
+			Time.timeScale = timeScale;
+			m_TimeScaleText.text = "X " + timeScale;
+			if(timeScale == 1)
+			{
+				m_TimeScaleText.gameObject.SetActive (false);;
+			}
 		}
 	}
 
@@ -150,10 +183,16 @@ public class GameManager : MonoBehaviour
         // Increment the round number and display text showing the players what round it is.
         m_RoundNumber++;
         //m_MessageText.text = "ROUND " + m_RoundNumber;
-		m_MessageText.text = "开始！";
+		//m_MessageText.text = "开始\n"+m_StartDelay;
+
+		while(m_StartDelay-->0)
+		{
+			m_MessageText.text = "开始\n"+(m_StartDelay+1);
+			yield return m_WaitSecond;
+		}
 
         // Wait for the specified length of time until yielding control back to the game loop.
-        yield return m_StartWait;
+        //yield return m_StartWait;
     }
 
 
