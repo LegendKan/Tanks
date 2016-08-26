@@ -9,6 +9,7 @@ public class AIController : MonoBehaviour {
 	[HideInInspector] public TankHealth health;
 	[HideInInspector] public TankMovement movement;
 	[HideInInspector] public TankShooting shooting;
+	[HideInInspector] public TankSensor sensor;
 
 	private AIController enemy_ai;
 
@@ -17,6 +18,7 @@ public class AIController : MonoBehaviour {
 		health = GetComponent<TankHealth> ();
 		movement = GetComponent<TankMovement> ();
 		shooting = GetComponent<TankShooting> ();
+		sensor = GetComponent<TankSensor> ();
 		enemy_ai = m_Enemy.GetComponent<AIController> ();
 	}
 
@@ -415,6 +417,23 @@ public class AIController : MonoBehaviour {
 	public float GetEnemyRebornProtectRemaining()
 	{
 		return enemy_ai.GetRebornProtectRemaining ();
+	}
+
+	/// <summary>
+	/// Determines whether this instance has barrier between enemy.判断和敌人坦克之间是否有障碍物。
+	/// </summary>
+	/// <returns><c>true</c> if this instance has barrier between enemy; otherwise, <c>false</c>.</returns>
+	public bool HasBarrierBetweenEnemy()
+	{
+		if(sensor!=null){
+			string tag = sensor.RaycastCheck (transform.position,(m_Enemy.transform.position - transform.position), shooting.m_MaxRange*1.5f);
+			if(tag == "Tank"+(3-health.m_PlayerNumber))
+			{
+				return false;
+			}
+			return true;
+		}
+		return false;
 	}
 
 
