@@ -145,7 +145,7 @@ public class TankShooting : MonoBehaviour
         //shellInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward; 
 		shellInstance.velocity = m_ShellSpeed * m_FireTransform.forward;//炮弹速度
 		shellExplosion.startPostion = transform.position;
-		shellExplosion.shellRange = m_MaxRange;
+		shellExplosion.shellRange = m_MaxRange * m_MaxRange;
 
         // Change the clip to the firing clip and play it.
         m_ShootingAudio.clip = m_FireClip;

@@ -17,8 +17,16 @@ public class ShellExplosion : MonoBehaviour
     private void Start ()
     {
         // If it isn't destroyed by then, destroy the shell after it's lifetime.
-        Destroy (gameObject, m_MaxLifeTime);
+        //Destroy (gameObject, m_MaxLifeTime);
     }
+
+	private void Update()
+	{
+		if(Vector3.SqrMagnitude(transform.position - startPostion)>=shellRange)
+		{
+			Destroy (gameObject);
+		}
+	}
 
     private void OnTriggerEnter (Collider other)
     {
