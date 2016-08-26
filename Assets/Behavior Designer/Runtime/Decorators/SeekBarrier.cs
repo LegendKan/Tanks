@@ -25,6 +25,7 @@ public class SeekBarrier : Action
 
     public override void OnStart()
     {
+		navMeshAgent = this.GetComponent<NavMeshAgent>();
         aiCtrl = this.GetComponent<AIController>();
         foreach (var item in barrierObject)
         {
@@ -39,7 +40,12 @@ public class SeekBarrier : Action
         navMeshAgent.speed = aiCtrl.GetMoveSpeed();
         navMeshAgent.angularSpeed = aiCtrl.GetBodyRotateSpeed();
         navMeshAgent.enabled = true;
-        navMeshAgent.destination = targetBarrier.Value.position;
+		if (targetBarrier.Value != null) {
+			navMeshAgent.destination = targetBarrier.Value.position;
+		} else {
+			Debug.Log ("targetBarrier is null");
+		}
+        
 
     }
 
