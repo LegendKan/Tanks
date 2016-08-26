@@ -26,8 +26,8 @@ public class GameManager : MonoBehaviour
     private int m_RoundNumber;                  // Which round the game is currently on.
     private WaitForSeconds m_StartWait;         // Used to have a delay whilst the round starts.
     private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
-    private TankManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
-    private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
+    //private TankManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
+    //private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
 	private int cameraIndex = 0;
 	private float startTime;
 
@@ -300,7 +300,7 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-
+	/*
     // Returns a string message to display at the end of each round.
     private string EndMessage()
     {
@@ -326,6 +326,7 @@ public class GameManager : MonoBehaviour
 
         return message;
     }
+	*/
 
 
     // This function is used to turn all the tanks back on and reset their positions and properties.
