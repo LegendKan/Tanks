@@ -27,7 +27,7 @@ public class TankManager
 	public Slider m_HealthSlider;
 	public Image m_PlayerImage;
 	public Text m_DeadText;
-	public BehaviorTree behaviorTree;
+	[HideInInspector]public BehaviorTree[] behaviorTree;
     public Slider m_ShellSlider;
 	public Text m_ReloadingText;
 
@@ -44,7 +44,8 @@ public class TankManager
         m_Shooting = m_Instance.GetComponent<TankShooting> ();
 		m_Health = m_Instance.GetComponent<TankHealth> ();
         m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas> ().gameObject;
-		behaviorTree = m_Instance.GetComponent<BehaviorTree> ();
+		//behaviorTree = m_Instance.GetComponent<BehaviorTree> ();
+		behaviorTree = m_Instance.GetComponents<BehaviorTree> ();
 
         // Set the player numbers to be consistent across the scripts.
         m_Movement.m_PlayerNumber = m_PlayerNumber;
@@ -76,7 +77,11 @@ public class TankManager
         
 
 		if(behaviorTree!=null){
-			behaviorTree.enabled = false;
+			//behaviorTree.enabled = false;
+			for(int i = 0; i<behaviorTree.Length; i++)
+			{
+				behaviorTree [i].enabled = false;
+			}
 		}
 
 		//m_PlayerImage.color = m_PlayerColor;
@@ -121,10 +126,25 @@ public class TankManager
         m_Movement.enabled = false;
         m_Shooting.enabled = false;
 
-		if(behaviorTree!=null){
-			behaviorTree.enabled = false;
+		BdGameManager bdmanager = m_Instance.GetComponent<BdGameManager> ();
+		if(bdmanager!=null)
+		{
+			bdmanager.enabled = false;
 		}
 
+
+		if(behaviorTree!=null){
+			//behaviorTree.enabled = false;
+			for(int i = 0; i<behaviorTree.Length; i++)
+			{
+				behaviorTree [i].enabled = false;
+			}
+		}
+		NavMeshAgent agent = m_Instance.GetComponent<NavMeshAgent>();
+		if(agent!=null)
+		{
+			agent.enabled = false;
+		}
         m_CanvasGameObject.SetActive (false);
     }
 
@@ -135,7 +155,23 @@ public class TankManager
         m_Movement.enabled = true;
         m_Shooting.enabled = true;
 		if(behaviorTree!=null){
-			behaviorTree.enabled = true;
+			//behaviorTree.enabled = true;
+			for(int i = 0; i<behaviorTree.Length; i++)
+			{
+				behaviorTree [i].enabled = true;
+			}
+		}
+
+		NavMeshAgent agent = m_Instance.GetComponent<NavMeshAgent>();
+		if(agent!=null)
+		{
+			agent.enabled = true;
+		}
+
+		BdGameManager bdmanager = m_Instance.GetComponent<BdGameManager> ();
+		if(bdmanager!=null)
+		{
+			bdmanager.enabled = true;
 		}
 
         m_CanvasGameObject.SetActive (true);

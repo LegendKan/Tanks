@@ -11,8 +11,9 @@ public class TankShooting : MonoBehaviour
     public AudioClip m_ChargingClip;            // Audio that plays when each shot is charging up.
     public AudioClip m_FireClip;                // Audio that plays when each shot is fired.
 	public float m_Damage = 100f;
-    public float m_MinLaunchForce = 30f;        // The force given to the shell if the fire button is not held.
-    public float m_MaxLaunchForce = 30f;        // The force given to the shell if the fire button is held for the max charge time.
+	public float m_ShellSpeed = 30f;
+	[HideInInspector]public float m_MinLaunchForce = 30f;        // The force given to the shell if the fire button is not held.
+	[HideInInspector]public float m_MaxLaunchForce = 30f;        // The force given to the shell if the fire button is held for the max charge time.
     public float m_MaxChargeTime = 0.75f;       // How long the shell can charge for before it is fired at max force.
 
 	public float m_MaxRange = 10f;
@@ -23,8 +24,8 @@ public class TankShooting : MonoBehaviour
 
     private string m_FireButton;                // The input axis that is used for launching shells.
     private float m_CurrentLaunchForce;         // The force that will be given to the shell when the fire button is released.
-    private float m_ChargeSpeed;                // How fast the launch force increases, based on the max charge time.
-    private bool m_Fired;                       // Whether or not the shell has been launched with this button press.
+    //private float m_ChargeSpeed;                // How fast the launch force increases, based on the max charge time.
+    //private bool m_Fired;                       // Whether or not the shell has been launched with this button press.
 	private float fire_timer = 0.0f;
 	private float reload_timer = 0.0f;
 	private bool isreloading = false;
@@ -48,7 +49,7 @@ public class TankShooting : MonoBehaviour
         m_FireButton = "Fire" + m_PlayerNumber;
 
         // The rate that the launch force charges up is the range of possible forces by the max charge time.
-        m_ChargeSpeed = (m_MaxLaunchForce - m_MinLaunchForce) / m_MaxChargeTime;
+        //m_ChargeSpeed = (m_MaxLaunchForce - m_MinLaunchForce) / m_MaxChargeTime;
 
 		m_CurrentShellCount = shellCountPerClip;
     }
@@ -123,13 +124,13 @@ public class TankShooting : MonoBehaviour
 
 	public void Fire ()
     {
-		if(fire_timer<m_interval && !isreloading)
+		if(fire_timer<m_interval || isreloading)
 		{
 			return;
 		}
 		fire_timer = 0.0f;
         // Set the fired flag so only Fire is only called once.
-        m_Fired = true;
+        //m_Fired = true;
 
         // Create an instance of the shell and store a reference to it's rigidbody.
         Rigidbody shellInstance =
@@ -141,7 +142,10 @@ public class TankShooting : MonoBehaviour
 		shellExplosion.m_PlayerNumber = m_PlayerNumber;
 		shellExplosion.m_MaxDamage = m_Damage;
         // Set the shell's velocity to the launch force in the fire position's forward direction.
-        shellInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward; 
+        //shellInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward; 
+		shellInstance.velocity = m_ShellSpeed * m_FireTransform.forward;//炮弹速度
+		shellExplosion.startPostion = transform.position;
+		shellExplosion.shellRange = m_MaxRange * m_MaxRange;
 
         // Change the clip to the firing clip and play it.
         m_ShootingAudio.clip = m_FireClip;

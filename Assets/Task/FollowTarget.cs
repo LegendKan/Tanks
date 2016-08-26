@@ -45,7 +45,7 @@ public class FollowTarget : Action
 		if (lookAtTarget.Value)
         {
             //find out the next position returned by the navigation mesh
-            Vector3 nextNavPosition = GetComponent<NavMeshAgent>().nextPosition;
+            //Vector3 nextNavPosition = GetComponent<NavMeshAgent>().nextPosition;
             //Forward to the new position
 			transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(transform.position - oldPosition), maxLookAtRotationDelta.Value);
         }
