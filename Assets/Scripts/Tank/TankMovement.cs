@@ -107,7 +107,7 @@ public class TankMovement : MonoBehaviour
         // Adjust the rigidbodies position and orientation in FixedUpdate.
         Move ();
         Turn ();
-		TurretTurn ();
+		//TurretTurn ();
 
 		//Debug.Log("Turret Rotation: "+turret.rotation.ToString());
     }
@@ -171,6 +171,8 @@ public class TankMovement : MonoBehaviour
 
 	public bool IsAimed(Vector3 targetPosition)
 	{
+		//Debug.Log ("turret position: "+turret.position.ToString());
+		//Debug.Log ("IsAimed: "+targetPosition.ToString());
 		Vector3 offset = targetPosition - turret.position;
 		offset.y = 0;//
 		Quaternion to = Quaternion.LookRotation(offset, Vector3.up);
