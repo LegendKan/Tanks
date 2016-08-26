@@ -28,6 +28,10 @@ public class BehaviorTreeManage : MonoBehaviour
     }
     void Update()
     {
+		if(!BehaviorManager.instance)
+		{
+			return;
+		}
         if (aictrl.IsEnemyAlive())
         {
             if (aictrl.GetCurrentHealth() == aictrl.GetEnemyCurrentHealth() && aictrl.GetShellRange() <= aictrl.GetDistanceWithEnemy())
