@@ -28,8 +28,13 @@ public class BdLoadClip : Action {
 		if (aiCtr.GetCurrentShellCount()!=0 && !aiCtr.IsReloading()) {
 			return TaskStatus.Success;
 		}
-		//一边换弹药，一边围绕敌人运动运动
-		this.transform.RotateAround(aiCtr.GetEnemyTransform().position,Vector3.up,mSpeed*Time.deltaTime);
+        //一边换弹药，一边围绕敌人运动运动,一边瞄准
+        if (aiCtr.IsAimed(this.transform.position))
+        {
+            transform.Rotate(Vector3.up * 90);
+        }
+        this.transform.RotateAround(aiCtr.GetEnemyTransform().position,Vector3.up,mSpeed*Time.deltaTime);
+        aiCtr.RotateTurret(aiCtr.GetEnemyTransform().position);
 		return TaskStatus.Running;
 	}
 

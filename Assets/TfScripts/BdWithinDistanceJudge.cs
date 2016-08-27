@@ -15,10 +15,6 @@ public class BdWithinDistanceJudge : Conditional {
 
 	public override TaskStatus OnUpdate()
 	{
-		if (aiCtr.IsAimed(aiCtr.GetEnemyTransform().position)) {
-			aiCtr.RotateTurret (aiCtr.GetEnemyTransform ().position);
-		}
-	
 		if (aiCtr.GetDistanceWithEnemy()<=aiCtr.GetShellRange()) {
 			
 			return TaskStatus.Success;

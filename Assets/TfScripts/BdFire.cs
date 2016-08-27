@@ -10,6 +10,8 @@ public class BdFire : Conditional {
 	public AIController aiCtr;
 	private float mSpeed;
 
+    int i = 0;
+
 	public override void OnStart(){ 
 		aiCtr = this.GetComponent<AIController> ();
 		mSpeed = aiCtr.GetMoveSpeed ();
@@ -18,26 +20,26 @@ public class BdFire : Conditional {
 
 	public override TaskStatus OnUpdate()
 	{
-		//瞄准
-		if (!aiCtr.IsAimed(aiCtr.GetEnemyTransform().position)) {
-			aiCtr.RotateTurret (aiCtr.GetEnemyTransform ().position);
-			return TaskStatus.Running;
-		}
 
-		//敌人没死，就打
-		if (aiCtr.IsEnemyAlive())	
-		{
-			aiCtr.Fire ();	
-		}
-		//没弹药了
-		if (aiCtr.GetCurrentShellCount()<=0) {
+        //瞄准了，就打一抢
+        if (aiCtr.IsAimedEnemy() && aiCtr.IsEnemyAlive())
+        {
+            aiCtr.Fire();
+        }
+        //没弹药了
+        if (aiCtr.GetCurrentShellCount()<=0) {
 			
 			aiCtr.ReloadClip ();
 			return TaskStatus.Failure;
 		}
 
-		//一边换弹药，一边围绕敌人运动运动
-		this.transform.RotateAround(aiCtr.GetEnemyTransform().position,Vector3.up,mSpeed*Time.deltaTime);
+        //围绕敌人运动运动
+        if (aiCtr.IsAimed(this.transform.position))
+        {
+            transform.Rotate(Vector3.up * 90);
+            Debug.Log(i++);
+        }
+        this.transform.RotateAround(aiCtr.GetEnemyTransform().position,Vector3.up,mSpeed*Time.deltaTime);
 		return TaskStatus.Success;
 	}
 

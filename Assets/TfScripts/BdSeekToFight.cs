@@ -34,16 +34,18 @@ public class BdSeekToFight : Action{
 
 	public override TaskStatus OnUpdate()
 	{
-		//每次都瞄准
-		if (!aiCtrl.IsAimed(aiCtrl.GetEnemyTransform().position)) {
-			aiCtrl.RotateTurret(aiCtrl.GetEnemyTransform().position);
-		}
-		//必然进入射程
+		//进入射程
 		if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < offsetDistance) {
 			return TaskStatus.Success;
 		}
 
-		if (aiCtrl.GetEnemyTransform() != null) {
+        if (aiCtrl.GetEnemyTransform() == null)
+        {
+            return TaskStatus.Failure;
+        }
+
+
+        if (aiCtrl.GetEnemyTransform() != null) {
 			navMeshAgent.destination = aiCtrl.GetEnemyTransform ().position;
 		}
 		return TaskStatus.Running;
