@@ -9,6 +9,7 @@ public class AIController : MonoBehaviour {
 	[HideInInspector] public TankHealth health;
 	[HideInInspector] public TankMovement movement;
 	[HideInInspector] public TankShooting shooting;
+	[HideInInspector] public TankSensor sensor;
 
 	private AIController enemy_ai;
 
@@ -17,6 +18,7 @@ public class AIController : MonoBehaviour {
 		health = GetComponent<TankHealth> ();
 		movement = GetComponent<TankMovement> ();
 		shooting = GetComponent<TankShooting> ();
+		sensor = GetComponent<TankSensor> ();
 		enemy_ai = m_Enemy.GetComponent<AIController> ();
 	}
 
@@ -373,12 +375,101 @@ public class AIController : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Gets the reborn protect time.获取重生保护的时间
+	/// Determines whether this instance is enemy reloading.敌人是否在换弹夹。
+	/// </summary>
+	/// <returns><c>true</c> if this instance is enemy reloading; otherwise, <c>false</c>.</returns>
+	public bool IsEnemyReloading()
+	{
+		return enemy_ai.IsReloading();
+	}
+
+	/// <summary>
+	/// Gets the reload remaining.获取换弹夹的剩余时间。
+	/// </summary>
+	/// <returns>The reload remaining.</returns>
+	public float GetReloadRemaining()
+	{
+		return shooting.GetReloadRemaining ();
+	}
+
+	/// <summary>
+	/// Gets the enemy reload remaining.获取敌人换弹夹的剩余时间。
+	/// </summary>
+	/// <returns>The enemy reload remaining.</returns>
+	public float GetEnemyReloadRemaining()
+	{
+		return enemy_ai.GetReloadRemaining();
+	}
+
+	/// <summary>
+	/// Gets the reborn protect time.获取重生保护的时间,"游戏过程中不会发生变化"
 	/// </summary>
 	/// <returns>The reborn protect time.</returns>
 	public float GetRebornProtectTime()
 	{
 		return health.m_RebornProtectTime;
+	}
+
+	/// <summary>
+	/// Determines whether this instance is reborn protected.自己是否在重生保护中。
+	/// </summary>
+	/// <returns><c>true</c> if this instance is reborn protected; otherwise, <c>false</c>.</returns>
+	public bool IsRebornProtected()
+	{
+		return health.IsRebornProtected();
+	}
+
+	/// <summary>
+	/// Gets the reborn protect remaining.返回自己重生保护的剩余时间
+	/// </summary>
+	/// <returns>The reborn protect remaining.</returns>
+	public float GetRebornProtectRemaining()
+	{
+		return health.GetRebornProtectRemaining ();
+	}
+
+	/// <summary>
+	/// Determines whether this instance is enemy reborn protected.敌人是否在重生保护中。
+	/// </summary>
+	/// <returns><c>true</c> if this instance is enemy reborn protected; otherwise, <c>false</c>.</returns>
+	public bool IsEnemyRebornProtected()
+	{
+		return enemy_ai.IsRebornProtected();
+	}
+
+	/// <summary>
+	/// Gets the enemy reborn protect remaining.获取敌方重生保护的剩余时间。
+	/// </summary>
+	/// <returns>The enemy reborn protect remaining.</returns>
+	public float GetEnemyRebornProtectRemaining()
+	{
+		return enemy_ai.GetRebornProtectRemaining ();
+	}
+
+	/// <summary>
+	/// Determines whether this instance has barrier between enemy.判断和敌人坦克之间是否有障碍物。
+	/// </summary>
+	/// <returns><c>true</c> if this instance has barrier between enemy; otherwise, <c>false</c>.</returns>
+	public bool HasBarrierBetweenEnemy()
+	{
+		if(sensor!=null){
+			string tag = sensor.RaycastCheck (transform.position,(m_Enemy.transform.position - transform.position), shooting.m_MaxRange*1.5f);
+			if(tag == "Tank"+(3-health.m_PlayerNumber))
+			{
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+
+	/// <summary>
+	/// Determines whether this instance is aimed enemy.判断是否瞄准了敌人。
+	/// </summary>
+	/// <returns><c>true</c> if this instance is aimed enemy; otherwise, <c>false</c>.</returns>
+	public bool IsAimedEnemy()
+	{
+		return shooting.IsAimedEnemy (m_Enemy.GetInstanceID());
 	}
 
 

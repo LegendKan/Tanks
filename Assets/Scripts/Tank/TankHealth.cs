@@ -80,6 +80,16 @@ public class TankHealth : MonoBehaviour
 		return Time.time - rebornTime <= m_RebornProtectTime;
 	}
 
+	public float GetRebornProtectRemaining()
+	{
+		float remaining = m_RebornProtectTime - Time.time + rebornTime;
+		if(remaining<0)
+		{
+			return 0;
+		}
+		return remaining;
+	}
+
 	public void AddHealth(float health)
 	{
 		float final = m_CurrentHealth + health;

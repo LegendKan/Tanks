@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using UnityEngine;		
 
 
 public class TankMovement : MonoBehaviour
@@ -121,7 +121,7 @@ public class TankMovement : MonoBehaviour
         // Apply this movement to the rigidbody's position.
         m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
     }
-
+			
     public void MoveToPosition(Vector3 targetPosition)
     {
         Vector3 movementOffset = (targetPosition - m_Rigidbody.position) * m_Speed * Time.deltaTime;
@@ -129,6 +129,68 @@ public class TankMovement : MonoBehaviour
     }
 
 
+    private void Turn ()
+    {
+        // Determine the number of degrees to be turned based on the input, speed and time between frames.
+        float turn = m_TurnInputValue * m_TurnSpeed * Time.deltaTime;
+
+        // Make this into a rotation in the y axis.
+        Quaternion turnRotation = Quaternion.Euler (0f, turn, 0f);
+
+        // Apply this rotation to the rigidbody's rotation.
+        m_Rigidbody.MoveRotation (m_Rigidbody.rotation * turnRotation);
+    }
+
+	public void Forward()
+	{
+		Vector3 movement = transform.forward * m_Speed * Time.deltaTime;
+		// Apply this movement to the rigidbody's position.
+		m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
+	}
+
+	public void Backward()
+	{
+		Vector3 movement = transform.forward * (-1) * m_Speed * Time.deltaTime;
+		// Apply this movement to the rigidbody's position.
+		m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
+	}
+
+	private void TurretTurn ()
+	{
+		turret.Rotate (0, m_MouseInput * 2, 0);
+	}
+
+	//炮塔旋转
+	public void RotateTurret(Vector3 targetPosition)
+	{
+		Vector3 offset = targetPosition - turret.position;
+		offset.y = 0;//turret.position.y
+		Quaternion to = Quaternion.LookRotation(offset, Vector3.up);
+		turret.rotation = Quaternion.RotateTowards(turret.rotation, to, m_TurretSpeed * Time.deltaTime);
+	}
+
+	public bool IsAimed(Vector3 targetPosition)
+	{
+		Vector3 offset = targetPosition - turret.position;
+		offset.y = 0;//
+		Quaternion to = Quaternion.LookRotation(offset, Vector3.up);
+		return turret.rotation == to;
+	}
+
+	public void RotateBody(Vector3 targetPosition)
+	{
+		Vector3 offset = targetPosition - transform.position;
+		offset.y = transform.position.y;
+		Quaternion to = Quaternion.LookRotation(offset, Vector3.up);
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, to, m_TurnSpeed * Time.deltaTime);
+	}
+
+	public Quaternion GetTurretRotation()
+	{
+		return turret.rotation;
+	}
+
+	/*
     private void Turn ()
     {
         // Determine the number of degrees to be turned based on the input, speed and time between frames.
@@ -191,4 +253,5 @@ public class TankMovement : MonoBehaviour
 	{
 		return turret.rotation;
 	}
+	*/
 }

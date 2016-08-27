@@ -132,6 +132,12 @@ public class TankManager
 			bdmanager.enabled = false;
 		}
 
+		BehaviorTreeManage bdmanager2 = m_Instance.GetComponent<BehaviorTreeManage> ();
+		if(bdmanager2!=null)
+		{
+			bdmanager2.enabled = false;
+		}
+
 
 		if(behaviorTree!=null){
 			//behaviorTree.enabled = false;
@@ -172,6 +178,12 @@ public class TankManager
 		if(bdmanager!=null)
 		{
 			bdmanager.enabled = true;
+		}
+
+		BehaviorTreeManage bdmanager2 = m_Instance.GetComponent<BehaviorTreeManage> ();
+		if(bdmanager2!=null)
+		{
+			bdmanager2.enabled = true;
 		}
 
         m_CanvasGameObject.SetActive (true);
