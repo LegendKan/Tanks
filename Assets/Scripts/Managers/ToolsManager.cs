@@ -67,7 +67,7 @@ public class ToolsManager : MonoBehaviour {
 				{
 					attackTool.lastTime = m_ShellLastTime;
 					attackTool.damageAdded = m_ShellDamageAdded;
-					attackTool.OnCollected += OnShellCollected;
+					attackTool.OnCollected += OnCollect;
 				}
 				healthObject = attack;
 			} else {

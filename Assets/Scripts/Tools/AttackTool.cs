@@ -28,10 +28,29 @@ public class AttackTool : MonoBehaviour {
 			AttackBuffer attackBuffer = other.gameObject.AddComponent <AttackBuffer>();
 			attackBuffer.lastTime = lastTime;
 			attackBuffer.damageAdded = damageAdded;
+			OnGetHealthParticleSys ();
 			if(OnCollected != null)
 			{
 				OnCollected (this,EventArgs.Empty);
 			}
 		}
+	}
+
+	private void OnGetHealthParticleSys()
+	{
+		//play the animation of getting health bag
+		Animation cureAnimation = this.gameObject.GetComponent<Animation>();
+		Debug.Assert(null != cureAnimation);
+		cureAnimation.Play();
+
+		//play the audio of getting health bag
+		AudioSource cureAudio = this.gameObject.GetComponent<AudioSource>();
+		Debug.Assert(null != cureAudio);
+		cureAudio.Play();
+	}
+
+	public void DestroyHeart()
+	{
+		Destroy(gameObject);
 	}
 }
