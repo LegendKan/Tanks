@@ -39,7 +39,25 @@ public class AIController : MonoBehaviour {
 	/// <returns>The shell damage.</returns>
 	public float GetShellDamage()
 	{
+		return shooting.m_PuGong;
+	}
+
+	/// <summary>
+	/// Gets the current damage.获取当前的攻击（可能吃了buffer）
+	/// </summary>
+	/// <returns>The current damage.</returns>
+	public float GetCurrentDamage()
+	{
 		return shooting.m_Damage;
+	}
+
+	/// <summary>
+	/// Gets the enemy current damage.获取敌方当前的攻击力。
+	/// </summary>
+	/// <returns>The enemy current damage.</returns>
+	public float GetEnemyCurrentDamage()
+	{
+		return enemy_ai.GetCurrentDamage ();
 	}
 
 	/// <summary>
@@ -472,5 +490,50 @@ public class AIController : MonoBehaviour {
 		return shooting.IsAimedEnemy (m_Enemy.GetInstanceID());
 	}
 
+	/// <summary>
+	/// Determines whether this instance is shell powered up.判断是否吃了增加攻击力的buffer。
+	/// </summary>
+	/// <returns><c>true</c> if this instance is shell powered up; otherwise, <c>false</c>.</returns>
+	public bool IsShellPoweredUp()
+	{
+		AttackBuffer attackBuffer = GetComponent<AttackBuffer> ();
+		if(attackBuffer!=null)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/// <summary>
+	/// Determines whether this instance is enemy shell powered up.判断敌人是否吃了增加攻击力的buffer。
+	/// </summary>
+	/// <returns><c>true</c> if this instance is enemy shell powered up; otherwise, <c>false</c>.</returns>
+	public bool IsEnemyShellPoweredUp()
+	{
+		return enemy_ai.IsShellPoweredUp ();
+	}
+
+	/// <summary>
+	/// Gets the shell powered up remaining.buffer剩余时间。
+	/// </summary>
+	/// <returns>The shell powered up remaining.</returns>
+	public float GetShellPoweredUpRemaining()
+	{
+		AttackBuffer attackBuffer = GetComponent<AttackBuffer> ();
+		if(attackBuffer!=null)
+		{
+			return 0f;
+		}
+		return attackBuffer.GetBufferRemaining ();
+	}
+
+	/// <summary>
+	/// Gets the enemy shell powered up remaining.敌人buffer剩余时间。
+	/// </summary>
+	/// <returns>The enemy shell powered up remaining.</returns>
+	public float GetEnemyShellPoweredUpRemaining()
+	{
+		return enemy_ai.GetShellPoweredUpRemaining ();
+	}
 
 }

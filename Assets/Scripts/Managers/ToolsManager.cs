@@ -26,6 +26,7 @@ public class ToolsManager : MonoBehaviour {
 	private int healthTransform;
 	private GameObject healthObject;
 	private int index;
+	private int times = 0;
 
 	private ArrayList transforms;
 
@@ -52,20 +53,38 @@ public class ToolsManager : MonoBehaviour {
 		{
 			//生成血包，在随机的地点
 			//int i = UnityEngine.Random.Range(0, m_ToolsTransform.Length);
-			//index = i;
+			index = randomPickOne();
 			//GameObject health = Instantiate(m_HealthBag, m_ToolsTransform[i].position, m_ToolsTransform[i].rotation) as GameObject;
-			healthTransform = pickOneTransform();
-			GameObject health = Instantiate(m_HealthBag, m_ToolsTransform[healthTransform].position, m_ToolsTransform[healthTransform].rotation) as GameObject;
-			HealthTool healthComponent = health.GetComponent<HealthTool> ();
-			if(healthComponent!=null)
-			{
-				healthComponent.m_HealthBag = m_HealthBagAmount;
-				healthComponent.OnCollected += OnCollect;
+			//healthTransform = pickOneTransform();
+			//血包 血包 攻击buffer
+			times++;
+			if (times % 3 == 0 && m_ShellPropSwitch) {
+				//生成buffer
+				GameObject attack = Instantiate(m_ShellProp, m_ToolsTransform[index].position, m_ToolsTransform[index].rotation) as GameObject;
+				//设置一些属性
+				AttackTool attackTool = attack.GetComponent<AttackTool>();
+				if(attackTool!=null)
+				{
+					attackTool.lastTime = m_ShellLastTime;
+					attackTool.damageAdded = m_ShellDamageAdded;
+					attackTool.OnCollected += OnShellCollected;
+				}
+				healthObject = attack;
+			} else {
+				GameObject health = Instantiate(m_HealthBag, m_ToolsTransform[index].position, m_ToolsTransform[index].rotation) as GameObject;
+				HealthTool healthComponent = health.GetComponent<HealthTool> ();
+				if(healthComponent!=null)
+				{
+					healthComponent.m_HealthBag = m_HealthBagAmount;
+					healthComponent.OnCollected += OnCollect;
+				}
+				healthObject = health;
 			}
-			healthObject = health;
+
 			beenCollected = false;
 		}
 
+		/*
 		//生成增强伤害道具，直接硬编码，没有时间看结构了。
 		if(m_ShellPropSwitch && shellBeenCollected && (Time.time - shellLastTime) >= m_ShellInterval)
 		{
@@ -80,6 +99,7 @@ public class ToolsManager : MonoBehaviour {
 			}
 			shellBeenCollected = false;
 		}
+		*/
 	}
 
 	private int pickOneTransform()
@@ -90,13 +110,19 @@ public class ToolsManager : MonoBehaviour {
 		return tmp;
 	}
 
+	private int randomPickOne()
+	{
+		int i = UnityEngine.Random.Range(0, m_ToolsTransform.Length);
+		return i;
+	}
+
 	public void OnCollect(object sender, EventArgs args)
 	{
 		Debug.Log ("Tools has been collected");
 		beenCollected = true;
 		lastTime = Time.time;
-		transforms.Add (healthTransform);
-		healthTransform = -1;
+		//transforms.Add (healthTransform);
+		//healthTransform = -1;
 	}
 
 	public void OnShellCollected(object sender, EventArgs args)
@@ -104,8 +130,8 @@ public class ToolsManager : MonoBehaviour {
 		Debug.Log ("Attack Tool has been collected");
 		shellBeenCollected = true;
 		shellLastTime = Time.time;
-		transforms.Add (bufferTransform);
-		bufferTransform = -1;
+		//transforms.Add (bufferTransform);
+		//bufferTransform = -1;
 	}
 
 	public Transform[] GetAllSpawnTransforms()
@@ -129,14 +155,35 @@ public class ToolsManager : MonoBehaviour {
 		{
 			return null;
 		}
-		//return healthObject.transform;
+		return healthObject.transform;
+		/*
 		if(healthTransform>=0)
 		{
 			return m_ToolsTransform[healthTransform];
 		}
 		return null;
+		*/
 	}
 
+	public Transform GetCurrentAttackTransform()
+	{
+		if(beenCollected||healthObject==null||times%3!=0)
+		{
+			return null;
+		}
+		return healthObject.transform;
+	}
+
+	public Transform GetCurrentPropTransform()
+	{
+		if(beenCollected||healthObject==null)
+		{
+			return null;
+		}
+		return healthObject.transform;
+	}
+
+	/*
 	public Transform GetAttackBufferTransform()
 	{
 		if(shellBeenCollected||bufferTransform <0)
@@ -146,6 +193,7 @@ public class ToolsManager : MonoBehaviour {
 		//return healthObject.transform;
 		return m_ToolsTransform[bufferTransform];
 	}
+	*/
 
 	public bool HasTools()
 	{
@@ -155,6 +203,21 @@ public class ToolsManager : MonoBehaviour {
 	public float GetHealthBagAmount()
 	{
 		return m_HealthBagAmount;
+	}
+
+	public float GetDamageAdded()
+	{
+		return m_ShellDamageAdded;
+	}
+
+	public float GetAttackBufferLastTime()
+	{
+		return m_ShellLastTime;
+	}
+
+	public bool IsPropHealth()
+	{
+		return !(times % 3 == 0);
 	}
 
 }

@@ -35,7 +35,7 @@ public class TankManager
     private TankShooting m_Shooting;                        // Reference to tank's shooting script, used to disable and enable control.
 	private TankHealth m_Health;
     private GameObject m_CanvasGameObject;                  // Used to disable the world space UI during the Starting and Ending phases of each round.
-
+	private BornShield bornShield;
 
     public void Setup ()
     {
@@ -44,6 +44,7 @@ public class TankManager
         m_Shooting = m_Instance.GetComponent<TankShooting> ();
 		m_Health = m_Instance.GetComponent<TankHealth> ();
         m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas> ().gameObject;
+		bornShield = m_Instance.GetComponent<BornShield> ();
 		//behaviorTree = m_Instance.GetComponent<BehaviorTree> ();
 		behaviorTree = m_Instance.GetComponents<BehaviorTree> ();
 
@@ -125,6 +126,8 @@ public class TankManager
     {
         m_Movement.enabled = false;
         m_Shooting.enabled = false;
+		m_Health.enabled = false;
+		bornShield.enabled = false;
 
 		BdGameManager bdmanager = m_Instance.GetComponent<BdGameManager> ();
 		if(bdmanager!=null)
@@ -160,6 +163,8 @@ public class TankManager
     {
         m_Movement.enabled = true;
         m_Shooting.enabled = true;
+		m_Health.enabled = true;
+		bornShield.enabled = true;
 		if(behaviorTree!=null){
 			//behaviorTree.enabled = true;
 			for(int i = 0; i<behaviorTree.Length; i++)

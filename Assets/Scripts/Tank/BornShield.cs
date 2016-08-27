@@ -6,11 +6,24 @@ public class BornShield : MonoBehaviour {
 
     private bool m_bShieldActive;
     private GameObject m_Shield;
+
+	private TankHealth health;
+
+	private void Awake ()
+	{
+		m_Shield = transform.FindChild("shield").gameObject;
+		health = GetComponent<TankHealth> ();
+	}
+
 	// Use this for initialization
 	void Start () {
-        m_Shield = transform.FindChild("shield").gameObject;
 
     }
+
+	private void OnEnable()
+	{
+		OnShieldEffective();
+	}
 
     public void OnTankReborn()
     {
@@ -25,6 +38,7 @@ public class BornShield : MonoBehaviour {
 
     private void OnShieldEffective()
     {
+		Debug.Log ("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHh");
         m_Shield.SetActive(true);
         m_bShieldActive = true;
     }
@@ -32,11 +46,10 @@ public class BornShield : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        m_fShieldExistTime -= Time.deltaTime;
-        if (m_fShieldExistTime <= 0.0f && m_bShieldActive)
-        {
-            DisactiveShield();
-        }   
+		if(!health.IsRebornProtected())
+		{
+			DisactiveShield ();
+		}
 	
 	}
 

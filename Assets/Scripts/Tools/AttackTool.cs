@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class AttackTool : MonoBehaviour {
+	public event EventHandler OnCollected;
 
 	public float lastTime = 4f;
 	public float damageAdded = 150f;
@@ -24,7 +26,12 @@ public class AttackTool : MonoBehaviour {
 		if(tag.StartsWith("Tank"))
 		{
 			AttackBuffer attackBuffer = other.gameObject.AddComponent <AttackBuffer>();
-
+			attackBuffer.lastTime = lastTime;
+			attackBuffer.damageAdded = damageAdded;
+			if(OnCollected != null)
+			{
+				OnCollected (this,EventArgs.Empty);
+			}
 		}
 	}
 }

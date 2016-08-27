@@ -7,6 +7,7 @@ public class AttackBuffer : MonoBehaviour {
 
 	private float startTime;
 	private TankShooting shooting;
+	private AttackEffect attackEffect;
 
 	// Use this for initialization
 	void Start () {
@@ -15,7 +16,12 @@ public class AttackBuffer : MonoBehaviour {
 		if (shooting != null) {
 			shooting.m_Damage += damageAdded;
 			//加特效
-
+			attackEffect = GetComponent<AttackEffect>();
+			if(attackEffect!=null)
+			{
+				attackEffect.m_fAttackPropEffectiveTime = lastTime;
+				attackEffect.OnGetAttackProp ();
+			}
 		} else {
 			Destroy (this);
 		}
@@ -26,10 +32,19 @@ public class AttackBuffer : MonoBehaviour {
 		if((Time.time - startTime)>lastTime)
 		{
 			shooting.m_Damage -= damageAdded;
-			//消除特效
-
+			attackEffect.OnAttackPropIneffective ();
 			//删除自己
 			Destroy(this);
 		}
+	}
+
+	public float GetBufferRemaining()
+	{
+		float remaining = lastTime - Time.time + startTime;
+		if(remaining<0)
+		{
+			return 0f;
+		}
+		return remaining;
 	}
 }

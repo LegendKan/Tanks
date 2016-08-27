@@ -16,11 +16,13 @@ public class AttackEffect : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		/*
         m_fAttackPropEffectiveTime -= Time.deltaTime;
         if(m_fAttackPropEffectiveTime <= 0.0f && m_bIsAttackPropEffective)
         {
             OnAttackPropIneffective();
         }
+        */
 	
 	}
 
@@ -30,7 +32,7 @@ public class AttackEffect : MonoBehaviour {
         m_bIsAttackPropEffective = true;
     }
 
-    private void OnAttackPropIneffective()
+	public void OnAttackPropIneffective()
     {
         m_AttackProp.SetActive(false);
         m_bIsAttackPropEffective = false;
