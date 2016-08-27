@@ -65,7 +65,7 @@ public class ShellExplosion : MonoBehaviour
 		*/
 
 		TankHealth tmp = other.GetComponentInParent<TankHealth> ();
-		if( (tmp && tmp.m_PlayerNumber == m_PlayerNumber) || other.GetComponentInParent<GameTools>()!=null)
+		if( (tmp && tmp.m_PlayerNumber == m_PlayerNumber) || other.GetComponentInParent<GameTools>()!=null || other.gameObject.tag == "Shell")
 		{
 			return;
 		}
