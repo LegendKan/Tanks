@@ -51,6 +51,8 @@ public class TankHealth : MonoBehaviour
 	private void Start()
 	{
 		m_CurrentHealth = m_StartingHealth;
+		m_Slider.maxValue = m_StartingHealth;
+		m_Slider.value = m_StartingHealth;
 	}
 
 
