@@ -12,14 +12,24 @@ public class AttackBuffer : MonoBehaviour {
 	void Start () {
 		startTime = Time.time;
 		shooting = GetComponent<TankShooting> ();
-		if(shooting!=null)
-		{
-			
+		if (shooting != null) {
+			shooting.m_Damage += damageAdded;
+			//加特效
+
+		} else {
+			Destroy (this);
 		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if((Time.time - startTime)>lastTime)
+		{
+			shooting.m_Damage -= damageAdded;
+			//消除特效
+
+			//删除自己
+			Destroy(this);
+		}
 	}
 }
