@@ -375,6 +375,33 @@ public class AIController : MonoBehaviour {
 	}
 
 	/// <summary>
+	/// Determines whether this instance is enemy reloading.敌人是否在换弹夹。
+	/// </summary>
+	/// <returns><c>true</c> if this instance is enemy reloading; otherwise, <c>false</c>.</returns>
+	public bool IsEnemyReloading()
+	{
+		return enemy_ai.IsReloading();
+	}
+
+	/// <summary>
+	/// Gets the reload remaining.获取换弹夹的剩余时间。
+	/// </summary>
+	/// <returns>The reload remaining.</returns>
+	public float GetReloadRemaining()
+	{
+		return shooting.GetReloadRemaining ();
+	}
+
+	/// <summary>
+	/// Gets the enemy reload remaining.获取敌人换弹夹的剩余时间。
+	/// </summary>
+	/// <returns>The enemy reload remaining.</returns>
+	public float GetEnemyReloadRemaining()
+	{
+		return enemy_ai.GetReloadRemaining();
+	}
+
+	/// <summary>
 	/// Gets the reborn protect time.获取重生保护的时间,"游戏过程中不会发生变化"
 	/// </summary>
 	/// <returns>The reborn protect time.</returns>
@@ -434,6 +461,15 @@ public class AIController : MonoBehaviour {
 			return true;
 		}
 		return false;
+	}
+
+	/// <summary>
+	/// Determines whether this instance is aimed enemy.判断是否瞄准了敌人。
+	/// </summary>
+	/// <returns><c>true</c> if this instance is aimed enemy; otherwise, <c>false</c>.</returns>
+	public bool IsAimedEnemy()
+	{
+		return shooting.IsAimedEnemy (m_Enemy.GetInstanceID());
 	}
 
 

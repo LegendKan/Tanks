@@ -27,7 +27,7 @@ public class TankSensor : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.E))
 		{
 			//AIController aiCtr = GetComponent<AIController> ();
-			//Debug.Log ("Has Barrier between enemy "+aiCtr.HasBarrierBetweenEnemy());
+			//Debug.Log ("Has Barrier between enemy "+aiCtr.IsAimedEnemy());
 		}
 	}
 
