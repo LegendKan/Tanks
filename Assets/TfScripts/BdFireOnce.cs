@@ -16,19 +16,22 @@ public class BdFireOnce : Action {
 
 	public override TaskStatus OnUpdate()
 	{
-		//瞄准
-		if (!aiCtr.IsAimed(aiCtr.GetEnemyTransform().position)) {
-			aiCtr.RotateTurret (aiCtr.GetEnemyTransform ().position);
-			return TaskStatus.Running;
-		}
+        //瞄准了，就打一抢
+        if (aiCtr.IsAimedEnemy() && aiCtr.IsEnemyAlive()) {
+            aiCtr.Fire();
+            return TaskStatus.Success;
+        }
 
-		//敌人没死，就打一抢
-		if (aiCtr.IsEnemyAlive())	
-		{
-			aiCtr.Fire ();	
-		}
-			
-		return TaskStatus.Success;
+
+        if (aiCtr.GetEnemyTransform() == null)
+        {
+            return TaskStatus.Failure;
+        }
+
+        //瞄准
+        aiCtr.RotateTurret(aiCtr.GetEnemyTransform().position);             
+        return TaskStatus.Running;
+        
 	}
 
 

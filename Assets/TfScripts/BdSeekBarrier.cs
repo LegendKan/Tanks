@@ -58,8 +58,6 @@ public class BdSeekBarrier : Action{
 		}
 
 		if (targetBarrier.Value != null) {
-			//Debug.Log (this.transform.name);
-			//Debug.Log (targetBarrier.Value.name);
 			navMeshAgent.destination=targetBarrier.Value.position;
 
 		}
@@ -67,9 +65,15 @@ public class BdSeekBarrier : Action{
 		if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < offsetDistance) {
 			return TaskStatus.Success;
 		}
-			
 
-		return TaskStatus.Running;
+        //不用跑了，可以打了
+        if (aiCtrl.GetEnemyCurrentShellCount() * aiCtrl.GetShellDamage() - aiCtrl.GetCurrentHealth() < 0 && aiCtrl.GetCurrentShellCount() * aiCtrl.GetShellDamage() - aiCtrl.GetEnemyCurrentHealth() >= 0)
+        {
+            return TaskStatus.Failure;
+        }
+
+
+        return TaskStatus.Running;
 	}
 
 	public override void OnEnd()

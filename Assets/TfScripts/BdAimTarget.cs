@@ -15,17 +15,16 @@ public class BdAimTarget : Action {
 
 	public override TaskStatus OnUpdate()
 	{
-		Transform ts = this.transform.FindChild ("TankTurret");
-		this.transform.FindChild ("TankTurret").LookAt (aiCtr.GetEnemyTransform ().position);
-
-		if (aiCtr.IsAimed(aiCtr.GetEnemyTransform().position)){
-			return TaskStatus.Success;
-		}
+        //瞄准
+        if (!aiCtr.IsAimedEnemy()) {
+            aiCtr.RotateTurret(aiCtr.GetEnemyTransform().position);
+            return TaskStatus.Running;
+        }	
 
 		if (aiCtr.GetEnemyTransform()==null) {
 			return TaskStatus.Failure;
 		}
 
-		return TaskStatus.Running;
-	}
+        return TaskStatus.Success;
+    }
 }

@@ -40,7 +40,14 @@ using BehaviorDesigner.Runtime.Tasks;
  	 	if (aictrl.GetCurrentHealthTransform() != null) {
 			navMeshAgent.destination = aictrl.GetCurrentHealthTransform().position;
 			}
-			return TaskStatus.Running;
+
+        //不用跑了，可以打了
+        if (aictrl.GetEnemyCurrentShellCount() * aictrl.GetShellDamage() - aictrl.GetCurrentHealth() < 0 && aictrl.GetCurrentShellCount() * aictrl.GetShellDamage() - aictrl.GetEnemyCurrentHealth() >= 0)
+        {
+            return TaskStatus.Failure;
+        }
+
+        return TaskStatus.Running;
 		}
 
 		public override void OnEnd()
