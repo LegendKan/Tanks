@@ -38,7 +38,7 @@ public class BornShield : MonoBehaviour {
 
     private void OnShieldEffective()
     {
-		Debug.Log ("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHh");
+		//Debug.Log ("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHh");
         m_Shield.SetActive(true);
         m_bShieldActive = true;
     }

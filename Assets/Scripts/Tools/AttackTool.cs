@@ -33,6 +33,7 @@ public class AttackTool : MonoBehaviour {
 			{
 				OnCollected (this,EventArgs.Empty);
 			}
+			//Destroy (gameObject);
 		}
 	}
 
