@@ -178,7 +178,15 @@ public class TankShooting : MonoBehaviour
 		return m_interval - fire_timer>=0 ? m_interval - fire_timer:0;
 	}
 
-
+	public float GetReloadRemaining()
+	{
+		if(isreloading)
+		{
+			float reloadremaining = m_ReloadInterval - Time.time + reload_timer;
+			return reloadremaining >= 0 ? reloadremaining : 0;
+		}
+		return 0f;
+	}
 
 	public bool IsReloading()
 	{
@@ -194,5 +202,29 @@ public class TankShooting : MonoBehaviour
 	public int GetShellCountPerClip()
 	{
 		return shellCountPerClip;
+	}
+
+	public string RaycastCheck()
+	{
+		
+		Debug.Log ("Hit null");
+		return string.Empty;
+	}
+
+	public bool IsAimedEnemy(int instanceId)
+	{
+		Ray ray = new Ray ();
+		ray.origin = m_FireTransform.position;
+		ray.direction = m_FireTransform.forward;
+		RaycastHit hitInfo;
+		if(Physics.Raycast(ray, out hitInfo, m_MaxRange))
+		{
+			if(hitInfo.collider.gameObject.tag == "Tank"+(3-m_PlayerNumber)&&hitInfo.collider.gameObject.GetInstanceID() == instanceId)
+			{
+				return true;
+			}
+			return false;
+		}
+		return false;
 	}
 }

@@ -26,13 +26,12 @@ public class TankSensor : MonoBehaviour {
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.E))
 		{
-			Debug.Log ("Hit Info: "+RaycastCheck(turret, shellRange));
-			Debug.Log ("Enemy Info: "+enemies.Length);
-			Debug.Log ("Friend Info: "+friends.Length);
+			//AIController aiCtr = GetComponent<AIController> ();
+			//Debug.Log ("Has Barrier between enemy "+aiCtr.IsAimedEnemy());
 		}
 	}
 
-	private string RaycastCheck(Transform trans, float distance)
+	public string RaycastCheck(Transform trans, float distance)
 	{
 		Ray ray = new Ray ();
 		ray.origin = trans.position;
@@ -42,6 +41,21 @@ public class TankSensor : MonoBehaviour {
 		{
 			return hitInfo.collider.gameObject.tag;
 		}
+		return string.Empty;
+	}
+
+	public string RaycastCheck(Vector3 position, Vector3 direction, float distance)
+	{
+		Ray ray = new Ray ();
+		ray.origin = position;
+		ray.direction = direction;
+		RaycastHit hitInfo;
+		if(Physics.Raycast(ray, out hitInfo, distance))
+		{
+			Debug.Log ("Hit tag: " + hitInfo.collider.gameObject.tag);
+			return hitInfo.collider.gameObject.tag;
+		}
+		Debug.Log ("Hit null");
 		return string.Empty;
 	}
 
