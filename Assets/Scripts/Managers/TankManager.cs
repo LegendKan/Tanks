@@ -135,7 +135,7 @@ public class TankManager
 			bdmanager.enabled = false;
 		}
 
-		BehaviorTreeManage bdmanager2 = m_Instance.GetComponent<BehaviorTreeManage> ();
+		Tank2AiControl bdmanager2 = m_Instance.GetComponent<Tank2AiControl> ();
 		if(bdmanager2!=null)
 		{
 			bdmanager2.enabled = false;
@@ -185,7 +185,7 @@ public class TankManager
 			bdmanager.enabled = true;
 		}
 
-		BehaviorTreeManage bdmanager2 = m_Instance.GetComponent<BehaviorTreeManage> ();
+		Tank2AiControl bdmanager2 = m_Instance.GetComponent<Tank2AiControl> ();
 		if(bdmanager2!=null)
 		{
 			bdmanager2.enabled = true;
