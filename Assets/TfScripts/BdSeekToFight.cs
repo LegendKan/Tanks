@@ -35,7 +35,7 @@ public class BdSeekToFight : Action{
 	public override TaskStatus OnUpdate()
 	{
 		//进入射程
-		if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < offsetDistance) {
+		if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= aiCtrl.GetShellRange()) {
 			return TaskStatus.Success;
 		}
 
