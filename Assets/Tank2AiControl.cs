@@ -53,7 +53,7 @@ public class Tank2AiControl : MonoBehaviour
                     bt3.DisableBehavior();
                 }
             }
-            else if (aictrl.GetCurrentHealth() == aictrl.GetEnemyCurrentHealth() && !aictrl.HasHealthBag() && aictrl.GetEnemyCurrentShellCount() == aictrl.GetCurrentShellCount())
+            else if (aictrl.GetCurrentHealth() == 1000 && aictrl.GetEnemyCurrentHealth() ==1000 && !aictrl.HasHealthBag() && aictrl.GetEnemyCurrentShellCount() == aictrl.GetCurrentShellCount())
             {
                 if (!BehaviorManager.instance.IsBehaviorEnabled(bt1))
                 {
@@ -63,7 +63,7 @@ public class Tank2AiControl : MonoBehaviour
                 bt2.DisableBehavior();
                 bt3.DisableBehavior();
             }
-            else if (aictrl.GetCurrentHealth() < aictrl.GetEnemyCurrentHealth())
+            else if (aictrl.GetCurrentHealth() < aictrl.GetEnemyCurrentHealth() && aictrl.GetCurrentHealth() <= 500)
             {
                 if (!BehaviorManager.instance.IsBehaviorEnabled(bt3))
                 {
