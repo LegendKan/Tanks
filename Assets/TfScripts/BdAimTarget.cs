@@ -6,9 +6,9 @@ using BehaviorDesigner.Runtime.Tasks;
 public class BdAimTarget : Action {
 
 	public AIController aiCtr;
+    private float mSpeed;
 
-
-	public override void OnStart(){ 
+    public override void OnStart(){ 
 		aiCtr = this.GetComponent<AIController> ();
 	}
 
@@ -18,6 +18,11 @@ public class BdAimTarget : Action {
         //瞄准
         if (!aiCtr.IsAimedEnemy()) {
             aiCtr.RotateTurret(aiCtr.GetEnemyTransform().position);
+            //barrier between tanks
+            if (aiCtr.IsAimed(aiCtr.GetEnemyTransform().position)  )
+            {
+                this.transform.RotateAround(aiCtr.GetEnemyTransform().position, Vector3.up, mSpeed * Time.deltaTime);
+            }
             return TaskStatus.Running;
         }	
 
@@ -27,4 +32,12 @@ public class BdAimTarget : Action {
 
         return TaskStatus.Success;
     }
+
+    public override void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("yes");
+        mSpeed = 0f - mSpeed;
+    }
+
+
 }
