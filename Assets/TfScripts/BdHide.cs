@@ -27,11 +27,6 @@ public class BdHide : Action
     {
         if (!aiCtrl.HasBarrierBetweenEnemy())
         {
-            //围绕障碍物旋转
-            if (aiCtrl.IsAimed(this.transform.position))
-            {
-                transform.Rotate(Vector3.up * 90);
-            }
             transform.RotateAround(targetBarrier.Value.position,Vector3.up,mSpeed * Time.deltaTime);
         }
 
