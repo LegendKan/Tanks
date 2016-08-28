@@ -10,10 +10,10 @@ public class SeekBarrier : Action
     public AIController aiCtrl;
     public GameObject[] barrierObject = new GameObject[10];
     public SharedTransform targetBarrier;
-    private float barrierDistance = 0.01f;
+    private float barrierDistance = 9999.0f;
 
     private NavMeshAgent navMeshAgent;
-    public float offsetDistance = 0.1f;
+    public float offsetDistance = 0.01f;
 
 
     public override void OnAwake()
@@ -29,8 +29,8 @@ public class SeekBarrier : Action
         aiCtrl = this.GetComponent<AIController>();
         foreach (var item in barrierObject)
         {
-            float distanceMath = (aiCtrl.GetEnemyTransform().position - item.GetComponent<Transform>().position).sqrMagnitude - (aiCtrl.GetTransform().position - item.GetComponent<Transform>().position).sqrMagnitude;
-            if (barrierDistance < distanceMath)
+            float distanceMath = (aiCtrl.GetEnemyTransform().position - item.GetComponent<Transform>().position).sqrMagnitude;
+            if (barrierDistance > distanceMath)
             {
                 barrierDistance = distanceMath;
                 targetBarrier.Value = item.GetComponent<Transform>();
@@ -52,10 +52,11 @@ public class SeekBarrier : Action
 
     public override TaskStatus OnUpdate()
     {
+        barrierDistance = 9999.0f;
         foreach (var item in barrierObject)
         {
-            float distanceMath = (aiCtrl.GetEnemyTransform().position - item.GetComponent<Transform>().position).sqrMagnitude - (aiCtrl.GetTransform().position - item.GetComponent<Transform>().position).sqrMagnitude;
-            if (barrierDistance < distanceMath)
+            float distanceMath = (aiCtrl.GetEnemyTransform().position - item.GetComponent<Transform>().position).sqrMagnitude;
+            if (barrierDistance > distanceMath)
             {
                 barrierDistance = distanceMath;
                 targetBarrier.Value = item.GetComponent<Transform>();
