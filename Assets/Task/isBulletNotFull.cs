@@ -1,22 +1,23 @@
 ﻿using UnityEngine;
-using System.Collections;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
-public class isEnemyBloodHigh : Conditional
+public class isBulletNotFull : Conditional
 {
-    public AIController aiCtl;
+    public AIController aiController;
+
+    // Use this for initialization
     public override void OnStart()
     {
-        if (aiCtl == null)
+        if (aiController == null)
         {
-            aiCtl = GetComponent<AIController>();
+            aiController = GetComponent<AIController>();
         }
     }
 
     public override TaskStatus OnUpdate()
     {
-        if (aiCtl.GetEnemyCurrentHealth() <= aiCtl.GetCurrentHealth())
+        if (aiController.GetCurrentShellCount() != aiController.GetShellCountPerClip())
         {
             return TaskStatus.Success;
         }

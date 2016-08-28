@@ -4,7 +4,7 @@ using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
 
-public class tankFollowEnemy : Action
+public class follow15m : Action
 {
 
     public AIController aiCtrl;
@@ -43,7 +43,7 @@ public class tankFollowEnemy : Action
         {
             aiCtrl.RotateTurret(aiCtrl.GetEnemyTransform().position);
         }
-        if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= offsetDistance)
+        if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= 15.0f && navMeshAgent.remainingDistance > 10.0f)
         {
             return TaskStatus.Success;
         }

@@ -17,7 +17,7 @@ public class isEnemyDistanceFromprop : Conditional
     {
         tank2distanceFromProp = Vector3.Distance(transform.position, aiCtrl.GetCurrentHealthTransform().position);
         tank1distanceFromProp = Vector3.Distance(aiCtrl.GetEnemyTransform().position, aiCtrl.GetCurrentHealthTransform().position);
-        if (tank2distanceFromProp > tank1distanceFromProp)
+        if (tank2distanceFromProp - tank1distanceFromProp<= 20)
         {
             return TaskStatus.Success;
 

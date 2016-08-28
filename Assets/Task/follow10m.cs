@@ -4,7 +4,7 @@ using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
 
-public class tankFollowEnemy : Action
+public class follow10m : Action
 {
 
     public AIController aiCtrl;

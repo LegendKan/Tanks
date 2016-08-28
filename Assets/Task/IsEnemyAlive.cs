@@ -17,6 +17,6 @@ public class IsEnemyAlive : Conditional {
 		if(aiCOntroller.IsEnemyAlive()){
 			return TaskStatus.Success;
 		}
-		return TaskStatus.Failure;
+		else return TaskStatus.Failure;
 	}
 }

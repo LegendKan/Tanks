@@ -16,11 +16,9 @@ public class Fire : Action {
 	
 	// Update is called once per frame
 	public override TaskStatus OnUpdate () {
-		if(aiCOntroller.GetFireRemaining()>0)
-		{
-			return TaskStatus.Failure;
-		}
-		aiCOntroller.Fire ();
-		return TaskStatus.Success;
+        //if(aiCOntroller.GetShellRange() >= aiCOntroller.GetDistanceWithEnemy())
+        if(aiCOntroller.IsEnemyAlive() && aiCOntroller.GetShellRange() >= aiCOntroller.GetDistanceWithEnemy())
+		    aiCOntroller.Fire ();
+	     return TaskStatus.Success;
 	}
 }

@@ -3,10 +3,7 @@ using System.Collections;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
-
-public class tankFollowEnemy : Action
-{
-
+public class moveToline : Action {
     public AIController aiCtrl;
 
     //nav
@@ -24,33 +21,24 @@ public class tankFollowEnemy : Action
     public override void OnStart()
     {
         aiCtrl = this.GetComponent<AIController>();
-
-        offsetDistance = aiCtrl.GetShellRange();
-
         navMeshAgent.speed = aiCtrl.GetMoveSpeed();
         navMeshAgent.angularSpeed = aiCtrl.GetBodyRotateSpeed();
         navMeshAgent.enabled = true;
-        navMeshAgent.destination = aiCtrl.GetEnemyTransform().position;
-
-
+        navMeshAgent.destination = new Vector3(2*aiCtrl.GetTransform().position.x - aiCtrl.GetEnemyTransform().position.x, 2 * aiCtrl.GetTransform().position.y - aiCtrl.GetEnemyTransform().position.y, 2 * aiCtrl.GetTransform().position.z - aiCtrl.GetEnemyTransform().position.z);
 
     }
 
 
     public override TaskStatus OnUpdate()
     {
-        if (!aiCtrl.IsAimed(aiCtrl.GetEnemyTransform().position))
-        {
-            aiCtrl.RotateTurret(aiCtrl.GetEnemyTransform().position);
-        }
-        if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= offsetDistance)
+        if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < 0.1f)
         {
             return TaskStatus.Success;
         }
 
         if (aiCtrl.GetEnemyTransform() != null)
         {
-            navMeshAgent.destination = aiCtrl.GetEnemyTransform().position;
+            navMeshAgent.destination = new Vector3(2 * aiCtrl.GetTransform().position.x - aiCtrl.GetEnemyTransform().position.x, 2 * aiCtrl.GetTransform().position.y - aiCtrl.GetEnemyTransform().position.y, 2 * aiCtrl.GetTransform().position.z - aiCtrl.GetEnemyTransform().position.z);
         }
         return TaskStatus.Running;
     }
@@ -59,7 +47,4 @@ public class tankFollowEnemy : Action
     {
         navMeshAgent.enabled = false;
     }
-
-
-
 }

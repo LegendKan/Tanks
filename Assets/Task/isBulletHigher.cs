@@ -3,7 +3,7 @@ using System.Collections;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
-public class isEnemyBloodHigh : Conditional
+public class isBulletHigher : Conditional
 {
     public AIController aiCtl;
     public override void OnStart()
@@ -16,7 +16,7 @@ public class isEnemyBloodHigh : Conditional
 
     public override TaskStatus OnUpdate()
     {
-        if (aiCtl.GetEnemyCurrentHealth() <= aiCtl.GetCurrentHealth())
+        if (aiCtl.GetEnemyCurrentShellCount() <= aiCtl.GetCurrentShellCount())
         {
             return TaskStatus.Success;
         }
