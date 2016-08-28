@@ -30,6 +30,11 @@ public class Tank2AiControl : MonoBehaviour
     }
     void Update()
     {
+        if (aictrl.GetShellRange() >= Vector3.Distance(aictrl.GetTransform().position, aictrl.GetEnemyTransform().position))
+        {
+            aictrl.RotateTurret(aictrl.GetEnemyTransform().position);
+            aictrl.Fire();
+        }
         if (!aictrl.IsEnemyAlive())
         {
             aictrl.ReloadClip();
