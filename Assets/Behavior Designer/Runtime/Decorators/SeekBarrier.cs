@@ -27,6 +27,7 @@ public class SeekBarrier : Action
     {
 		navMeshAgent = this.GetComponent<NavMeshAgent>();
         aiCtrl = this.GetComponent<AIController>();
+		barrierObject = aiCtrl.GetAllBarriers ();
         foreach (var item in barrierObject)
         {
             float distanceMath = (aiCtrl.GetEnemyTransform().position - item.GetComponent<Transform>().position).sqrMagnitude;
