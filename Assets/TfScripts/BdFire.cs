@@ -33,12 +33,6 @@ public class BdFire : Conditional {
 			return TaskStatus.Failure;
 		}
 
-        //围绕敌人运动运动
-        if (aiCtr.IsAimed(this.transform.position))
-        {
-            transform.Rotate(Vector3.up * 90);
-            Debug.Log(i++);
-        }
         this.transform.RotateAround(aiCtr.GetEnemyTransform().position,Vector3.up,mSpeed*Time.deltaTime);
 		return TaskStatus.Success;
 	}
