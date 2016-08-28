@@ -8,14 +8,14 @@ public class Tank2AiControl : MonoBehaviour
 
     public AIController aictrl;
     private List<BehaviorTree> behaviourTree = new List<BehaviorTree>();
-    private BehaviorTree[] bts = new BehaviorTree[3];
-    private BehaviorTree bt, bt1, bt2;
+    private BehaviorTree[] bts = new BehaviorTree[4];
+    private BehaviorTree bt, bt1, bt2,bt3;
 
     void Start()
     {
         aictrl = this.GetComponent<AIController>();
         bts = this.transform.GetComponents<BehaviorTree>();
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
         {
             if (bts[i].Group == 0)
                 bt = bts[i];
@@ -23,11 +23,17 @@ public class Tank2AiControl : MonoBehaviour
                 bt1 = bts[i];
             else if (bts[i].Group == 2)
                 bt2 = bts[i];
+            else if (bts[i].Group == 3)
+                bt3 = bts[i];
         }
 
     }
     void Update()
     {
+        if (!aictrl.IsEnemyAlive())
+        {
+            aictrl.ReloadClip();
+        }
         if (!BehaviorManager.instance)
         {
             return;
@@ -44,6 +50,7 @@ public class Tank2AiControl : MonoBehaviour
                     }
                     bt.DisableBehavior();
                     bt1.DisableBehavior();
+                    bt3.DisableBehavior();
                 }
             }
             else if (aictrl.GetCurrentHealth() == aictrl.GetEnemyCurrentHealth() && !aictrl.HasHealthBag() && aictrl.GetEnemyCurrentShellCount() == aictrl.GetCurrentShellCount())
@@ -54,6 +61,17 @@ public class Tank2AiControl : MonoBehaviour
                 }
                 bt.DisableBehavior();
                 bt2.DisableBehavior();
+                bt3.DisableBehavior();
+            }
+            else if (aictrl.GetCurrentHealth() < aictrl.GetEnemyCurrentHealth())
+            {
+                if (!BehaviorManager.instance.IsBehaviorEnabled(bt3))
+                {
+                    bt3.EnableBehavior();
+                }
+                bt1.DisableBehavior();
+                bt2.DisableBehavior();
+                bt.DisableBehavior();
             }
             else
             {
@@ -63,6 +81,7 @@ public class Tank2AiControl : MonoBehaviour
                 }
                 bt1.DisableBehavior();
                 bt2.DisableBehavior();
+                bt3.DisableBehavior();
             }
 
         }

@@ -31,9 +31,7 @@ public class follow15m : Action
         navMeshAgent.angularSpeed = aiCtrl.GetBodyRotateSpeed();
         navMeshAgent.enabled = true;
         navMeshAgent.destination = aiCtrl.GetEnemyTransform().position;
-
-
-
+        navMeshAgent.stoppingDistance = 10.0f;
     }
 
 
@@ -43,7 +41,7 @@ public class follow15m : Action
         {
             aiCtrl.RotateTurret(aiCtrl.GetEnemyTransform().position);
         }
-        if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= 15.0f && navMeshAgent.remainingDistance > 10.0f)
+        if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance == 10.0f)
         {
             return TaskStatus.Success;
         }

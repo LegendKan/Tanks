@@ -27,7 +27,7 @@ public class AimTarget : Action {
 	// Update is called once per frame
 	public override TaskStatus OnUpdate () {
 		var position = Target();
-		if(aiCOntroller.IsAimed(aiCOntroller.GetEnemyTransform().position))
+		if(aiCOntroller.IsAimedEnemy())
 		{
 			return TaskStatus.Success;
 		}

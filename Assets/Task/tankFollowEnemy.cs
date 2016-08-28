@@ -31,7 +31,7 @@ public class tankFollowEnemy : Action
         navMeshAgent.angularSpeed = aiCtrl.GetBodyRotateSpeed();
         navMeshAgent.enabled = true;
         navMeshAgent.destination = aiCtrl.GetEnemyTransform().position;
-
+        navMeshAgent.stoppingDistance = offsetDistance;
 
 
     }

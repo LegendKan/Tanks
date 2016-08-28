@@ -31,9 +31,6 @@ public class follow10m : Action
         navMeshAgent.angularSpeed = aiCtrl.GetBodyRotateSpeed();
         navMeshAgent.enabled = true;
         navMeshAgent.destination = aiCtrl.GetEnemyTransform().position;
-
-
-
     }
 
 
