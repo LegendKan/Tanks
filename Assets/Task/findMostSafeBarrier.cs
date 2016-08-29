@@ -4,34 +4,38 @@ using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
 
-public class SeekBarrier : Action
+public class findMostSafeBarrier : Action
 {
 
     public AIController aiCtrl;
     public GameObject[] barrierObject = new GameObject[10];
-    public SharedTransform targetBarrier;
-    private float barrierDistance = 9999.0f;
 
+
+
+    //目标障碍物
+    public SharedTransform targetBarrier;
+    private float barrierDistance = 0.01f;
+
+    //nav
     private NavMeshAgent navMeshAgent;
-    public float offsetDistance = 0.01f;
+    public float offsetDistance = 0.1f;
 
 
     public override void OnAwake()
     {
         navMeshAgent = this.GetComponent<NavMeshAgent>();
-
     }
 
 
     public override void OnStart()
     {
-		navMeshAgent = this.GetComponent<NavMeshAgent>();
         aiCtrl = this.GetComponent<AIController>();
-		barrierObject = aiCtrl.GetAllBarriers ();
+        barrierObject = aiCtrl.GetAllBarriers();
+        //最远，最安全的障碍物
         foreach (var item in barrierObject)
         {
-            float distanceMath = (aiCtrl.GetEnemyTransform().position - item.GetComponent<Transform>().position).sqrMagnitude;
-            if (barrierDistance > distanceMath)
+            float distanceMath = (aiCtrl.GetEnemyTransform().position - item.GetComponent<Transform>().position).sqrMagnitude - (aiCtrl.GetTransform().position - item.GetComponent<Transform>().position).sqrMagnitude;
+            if (barrierDistance < distanceMath)
             {
                 barrierDistance = distanceMath;
                 targetBarrier.Value = item.GetComponent<Transform>();
@@ -41,23 +45,19 @@ public class SeekBarrier : Action
         navMeshAgent.speed = aiCtrl.GetMoveSpeed();
         navMeshAgent.angularSpeed = aiCtrl.GetBodyRotateSpeed();
         navMeshAgent.enabled = true;
-		if (targetBarrier.Value != null) {
-			navMeshAgent.destination = targetBarrier.Value.position;
-		} else {
-			Debug.Log ("targetBarrier is null");
-		}
-        
-
+        navMeshAgent.destination = targetBarrier.Value.position;
     }
 
 
     public override TaskStatus OnUpdate()
     {
-        barrierDistance = 9999.0f;
+
+        //最远，最安全的障碍物
+        barrierDistance = 0.01f;
         foreach (var item in barrierObject)
         {
-            float distanceMath = (aiCtrl.GetEnemyTransform().position - item.GetComponent<Transform>().position).sqrMagnitude;
-            if (barrierDistance > distanceMath)
+            float distanceMath = (aiCtrl.GetEnemyTransform().position - item.GetComponent<Transform>().position).sqrMagnitude - (aiCtrl.GetTransform().position - item.GetComponent<Transform>().position).sqrMagnitude;
+            if (barrierDistance < distanceMath)
             {
                 barrierDistance = distanceMath;
                 targetBarrier.Value = item.GetComponent<Transform>();
@@ -66,7 +66,6 @@ public class SeekBarrier : Action
 
         if (targetBarrier.Value != null)
         {
-            Debug.Log(targetBarrier.Value.name);
             navMeshAgent.destination = targetBarrier.Value.position;
             navMeshAgent.stoppingDistance = 5;
         }
@@ -75,8 +74,6 @@ public class SeekBarrier : Action
         {
             return TaskStatus.Success;
         }
-
-
         return TaskStatus.Running;
     }
 
@@ -84,7 +81,5 @@ public class SeekBarrier : Action
     {
         navMeshAgent.enabled = false;
     }
-
-
 
 }

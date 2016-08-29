@@ -17,15 +17,20 @@ public class Movearound : Action {
         agent.angularSpeed = aiCtl.GetBodyRotateSpeed();
         agent.enabled = true;
         agent.destination = aiCtl.GetCurrentHealthTransform().position;
+        agent.stoppingDistance = 2;
     }
     public override TaskStatus OnUpdate()
     {
+        if (!aiCtl.HasHealthBag())
+        {
+            return TaskStatus.Failure;
+        }
         if (!agent.pathPending && agent.remainingDistance < 2)
         {
             return TaskStatus.Success;
         }
 
-        if (aiCtl.GetCurrentHealthTransform() != null)
+        if (aiCtl.GetCurrentHealthTransform().position != null)
         {
             agent.destination = aiCtl.GetCurrentHealthTransform().position;
         }
