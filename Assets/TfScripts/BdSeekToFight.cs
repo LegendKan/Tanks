@@ -10,7 +10,7 @@ public class BdSeekToFight : Action{
 
 	//nav
 	private NavMeshAgent navMeshAgent;
-	public float offsetDistance=0.1f;
+	public float offsetDistance;
 
 
 	public override void OnAwake(){
@@ -22,7 +22,7 @@ public class BdSeekToFight : Action{
 	public override void OnStart(){ 
 		aiCtrl = this.GetComponent<AIController> ();
 
-		offsetDistance = aiCtrl.GetShellRange ();
+		offsetDistance = aiCtrl.GetShellRange ()+0.5f;
 
 		navMeshAgent.speed = aiCtrl.GetMoveSpeed();
 		navMeshAgent.angularSpeed = aiCtrl.GetBodyRotateSpeed ();
@@ -35,10 +35,24 @@ public class BdSeekToFight : Action{
 	public override TaskStatus OnUpdate()
 	{
 		//进入射程
-		if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= aiCtrl.GetShellRange()) {
+		if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= offsetDistance) {
 			return TaskStatus.Success;
 		}
 
+
+
+        //动态判断局势，跳出
+        //劣势
+        if (!(aiCtrl.GetEnemyCurrentShellCount() * aiCtrl.GetCurrentDamage() - aiCtrl.GetCurrentHealth() < 0 || aiCtrl.GetCurrentShellCount() * aiCtrl.GetCurrentDamage() - aiCtrl.GetEnemyCurrentHealth() >= 0))
+        {
+            // if (!aiCtr.IsReloading())
+            return TaskStatus.Failure;
+        }
+        //有道具且近
+        if (aiCtrl.GetCurrentHealthTransform() != null && (this.transform.position - aiCtrl.GetCurrentHealthTransform().position).sqrMagnitude <=(aiCtrl.GetEnemyTransform().position - aiCtrl.GetCurrentHealthTransform().position).sqrMagnitude)
+        {
+            return TaskStatus.Failure;
+        }
         if (aiCtrl.GetEnemyTransform() == null)
         {
             return TaskStatus.Failure;

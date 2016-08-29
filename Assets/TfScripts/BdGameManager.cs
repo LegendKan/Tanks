@@ -34,7 +34,7 @@ public class BdGameManager : MonoBehaviour {
 			return;
 		}
 		if (aictrl.IsEnemyAlive ()) {
-			if (aictrl.GetDistanceWithEnemy () > aictrl.GetShellRange ()) 
+			if (aictrl.GetDistanceWithEnemy () > aictrl.GetShellRange ()+0.7f) 
 			{
 				if (!BehaviorManager.instance.IsBehaviorEnabled (bt)) {
 					bt.EnableBehavior ();			

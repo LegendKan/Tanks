@@ -17,7 +17,7 @@ public class BdSeekBarrier : Action{
 
 	//nav
 	private NavMeshAgent navMeshAgent;
-	public float offsetDistance=0.1f;
+	public float offsetDistance=10f;
 
 
 	public override void OnAwake(){
@@ -62,12 +62,22 @@ public class BdSeekBarrier : Action{
 
 		}
 
-		if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < offsetDistance) {
-			return TaskStatus.Success;
-		}
 
-        //不用跑了，可以打了
-        if (aiCtrl.GetEnemyCurrentShellCount() * aiCtrl.GetShellDamage() - aiCtrl.GetCurrentHealth() < 0 && aiCtrl.GetCurrentShellCount() * aiCtrl.GetShellDamage() - aiCtrl.GetEnemyCurrentHealth() >= 0)
+
+        if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < offsetDistance)
+        {
+            return TaskStatus.Success;
+        }
+
+        //动态判断局势，跳出
+        //强势
+        if (aiCtrl.GetEnemyCurrentShellCount() * aiCtrl.GetShellDamage() - aiCtrl.GetCurrentHealth() < 0 || aiCtrl.GetCurrentShellCount() * aiCtrl.GetShellDamage() - aiCtrl.GetEnemyCurrentHealth() >= 0)
+        {
+            if (!aiCtrl.IsReloading())
+                return TaskStatus.Failure;
+        }
+        //有道具且近
+        if (aiCtrl.GetCurrentHealthTransform() != null && (this.transform.position - aiCtrl.GetCurrentHealthTransform().position).sqrMagnitude < (aiCtrl.GetEnemyTransform().position - aiCtrl.GetCurrentHealthTransform().position).sqrMagnitude)
         {
             return TaskStatus.Failure;
         }

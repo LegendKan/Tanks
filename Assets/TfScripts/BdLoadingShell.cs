@@ -15,7 +15,8 @@ public class BdLoadingShell : Action {
 
     public override TaskStatus OnUpdate()
     {
-        if (aiCtrl.GetCurrentShellCount() != aiCtrl.GetShellCountPerClip() && !aiCtrl.IsReloading())
+       // Debug.Log(aiCtrl.GetCurrentShellCount());
+        if (aiCtrl.GetCurrentShellCount() == 0 && !aiCtrl.IsReloading())
         {
             aiCtrl.ReloadClip();
             return TaskStatus.Success;

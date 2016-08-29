@@ -10,8 +10,6 @@ public class BdFire : Conditional {
 	public AIController aiCtr;
 	private float mSpeed;
 
-    int i = 0;
-
 	public override void OnStart(){ 
 		aiCtr = this.GetComponent<AIController> ();
 		mSpeed = aiCtr.GetMoveSpeed ();
@@ -33,15 +31,7 @@ public class BdFire : Conditional {
 			return TaskStatus.Failure;
 		}
 
-        this.transform.RotateAround(aiCtr.GetEnemyTransform().position,Vector3.up,mSpeed*Time.deltaTime);
 		return TaskStatus.Success;
-	}
-
-
-	public override void OnTriggerEnter(Collider other)
-	{
-		Debug.Log ("no");
-		mSpeed = 0f-mSpeed;
 	}
 
 }

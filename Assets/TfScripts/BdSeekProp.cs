@@ -8,7 +8,7 @@ using BehaviorDesigner.Runtime.Tasks;
 
 		//public SharedFloat speed;		
 		//public SharedFloat angularSpeed;
-		public float offsetDistance = 0.001f;
+		public float offsetDistance = 0.8f;
 
 
 		public AIController aictrl;
@@ -27,7 +27,7 @@ using BehaviorDesigner.Runtime.Tasks;
 	    	navMeshAgent.angularSpeed = aictrl.GetBodyRotateSpeed ();
 			navMeshAgent.enabled = true;
 		    navMeshAgent.destination = aictrl.GetCurrentHealthTransform().position;
-		    navMeshAgent.stoppingDistance = 0.01f;
+		    navMeshAgent.stoppingDistance = 0.5f;
 		}
 
 		public override TaskStatus OnUpdate()
@@ -41,14 +41,25 @@ using BehaviorDesigner.Runtime.Tasks;
 			navMeshAgent.destination = aictrl.GetCurrentHealthTransform().position;
 			}
 
-        //不用跑了，可以打了
+        /*
+        //强势
         if (aictrl.GetEnemyCurrentShellCount() * aictrl.GetShellDamage() - aictrl.GetCurrentHealth() < 0 && aictrl.GetCurrentShellCount() * aictrl.GetShellDamage() - aictrl.GetEnemyCurrentHealth() >= 0)
+        {
+            if (!aictrl.IsReloading())
+                return TaskStatus.Failure;
+        }
+        */
+
+        //没道具或者被敌人吃了
+        if (aictrl.GetCurrentHealthTransform() == null)
         {
             return TaskStatus.Failure;
         }
 
         return TaskStatus.Running;
 		}
+
+
 
 		public override void OnEnd()
 		{

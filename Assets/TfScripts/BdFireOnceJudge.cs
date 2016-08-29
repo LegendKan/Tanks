@@ -4,7 +4,7 @@ using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
 
-public class BdStateJudge : Conditional
+public class BdFireOnceJudge : Conditional
 {
 
     public AIController aiCtr;
@@ -17,10 +17,9 @@ public class BdStateJudge : Conditional
 
     public override TaskStatus OnUpdate()
     {
-       //敌人打不死我，或者我打的死敌人
-        if (aiCtr.GetEnemyCurrentShellCount()*aiCtr.GetCurrentDamage() - aiCtr.GetCurrentHealth()<0 || aiCtr.GetCurrentShellCount()* aiCtr.GetCurrentDamage() - aiCtr.GetEnemyCurrentHealth()>=0)
+        //敌人打不死我，我打的死敌人
+        if (aiCtr.GetEnemyCurrentShellCount() * aiCtr.GetShellDamage() - aiCtr.GetCurrentHealth() < 0 && aiCtr.GetCurrentShellCount() * aiCtr.GetShellDamage() - aiCtr.GetEnemyCurrentHealth() >= 0)
         {
-            if (!aiCtr.IsReloading())
             return TaskStatus.Success;
         }
 

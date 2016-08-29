@@ -47,8 +47,15 @@ using BehaviorDesigner.Runtime.Tasks;
         {
 
 
-        //不用跑了，可以打了
-        if (aictrl.GetEnemyCurrentShellCount() * aictrl.GetShellDamage() - aictrl.GetCurrentHealth() < 0 && aictrl.GetCurrentShellCount() * aictrl.GetShellDamage() - aictrl.GetEnemyCurrentHealth() >= 0)
+        //动态判断局势，跳出
+        //强势
+        if (aictrl.GetEnemyCurrentShellCount() * aictrl.GetCurrentDamage() - aictrl.GetCurrentHealth() < 0 || aictrl.GetCurrentShellCount() * aictrl.GetCurrentDamage() - aictrl.GetEnemyCurrentHealth() >= 0)
+        {
+           if (!aictrl.IsReloading())
+                return TaskStatus.Failure;
+        }
+        //有道具且近
+        if (aictrl.GetCurrentHealthTransform() != null && (this.transform.position - aictrl.GetCurrentHealthTransform().position).sqrMagnitude <= (aictrl.GetEnemyTransform().position - aictrl.GetCurrentHealthTransform().position).sqrMagnitude)
         {
             return TaskStatus.Failure;
         }
